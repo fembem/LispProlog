@@ -38,3 +38,17 @@
              (cond ((eq result 'fail) (match-all pred (cdr db)))
                    (t (cons result (match-all pred (cdr db)))))))))
 
+(defun infer (inference db)
+  (let* ((antecedents (car inference))
+         (pred (car antecedents))
+         (remaining-antecedents (cdr antecedents))
+         (consequents (cdr inference))
+         (new-inference (list remaining-antecedents consequents))
+         (binding-sets (match-all pred db)))
+    (get-results new-inference binding-sets)))
+
+(defun get-results (inference binding-sets db)
+  (cond ((null binding-sets) nil)
+        (t (let* ((replaced (tree-replace inference (car binding-sets)))
+                  (inferred (infer replaced db)))
+             (append inferred (get-results (cdr binding-sets db)))))))
