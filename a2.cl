@@ -10,7 +10,7 @@
   (format t "~A ~A ~A~%" (nth 6 state) (nth 7 state) (nth 8 state)))
  
 
-(setq *goal* (make-state 1 2 3 8 0 4 7 6 5))
+(defconstant *goal* (make-state 1 2 3 8 0 4 7 6 5))
 
 (defun blank-row-column (state)
   (let* ((pos-0 (position 0 state))
@@ -25,7 +25,8 @@
   (second (row-column state)))
 
 (defun list-pos (row column state)
-  (+ (* row 3) column))
+  (cond ((or (< row 0) (> row 2) (< column 0) (> column 2)) 'fail)
+        (t (+ (* row 3) column))))
 
 (defun elt-at (row column state)
   (nth (list-pos row column state) state))
@@ -49,8 +50,42 @@
                   (row (blank-row state))
                   (column (blank-column state))
                   )
-             (setf (elt-at row column new-state) (elt-above row column state))
-             (setf (elt-above row column new-state) (elt-above row column state))
-             (new-state)))))
+             ;(setf (elt-at row column new-state) (elt-above row column state))
+             (setf (nth (list-pos row column new-state) new-state) (nth (list-pos (- row 1) column state) state))
+             ;(setf (elt-above row column new-state) (elt-above row column state))
+             (setf (nth (list-pos (- row 1) column new-state) new-state) (nth (list-pos row column state) state))
+             (copy-list new-state)))))
 
+(defun move-blank-down (state)
+  (cond ((eq (blank-row state) 0) nil)
+        (t (let* (
+                  (new-state (clone-state state))
+                  (row (blank-row state))
+                  (column (blank-column state))
+                  )
+             (setf (nth (list-pos row column new-state) new-state) (nth (list-pos (+ row 1) column state) state))
+             (setf (nth (list-pos (+ row 1) column new-state) new-state) (nth (list-pos row column state) state))
+             (copy-list new-state)))))
+
+(defun move-blank-left (state)
+  (cond ((eq (blank-row state) 0) nil)
+        (t (let* (
+                  (new-state (clone-state state))
+                  (row (blank-row state))
+                  (column (blank-column state))
+                  )
+             (setf (nth (list-pos row column new-state) new-state) (nth (list-pos row (- column 1) state) state))
+             (setf (nth (list-pos row (- column 1) new-state) new-state) (nth (list-pos row column state) state))
+             (copy-list new-state)))))
+
+(defun move-blank-right (state)
+  (cond ((eq (blank-row state) 0) nil)
+        (t (let* (
+                  (new-state (clone-state state))
+                  (row (blank-row state))
+                  (column (blank-column state))
+                  )
+             (setf (nth (list-pos row column new-state) new-state) (nth (list-pos row (+ column 1) state) state))
+             (setf (nth (list-pos row (+ column 1) new-state) new-state) (nth (list-pos row column state) state))
+             (copy-list new-state)))))
 
