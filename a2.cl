@@ -12,17 +12,28 @@
 
 (defconstant *goal* (make-state 1 2 3 8 0 4 7 6 5))
 
-(defun blank-row-column (state)
-  (let* ((pos-0 (position 0 state))
+(defconstant *numbers* '(1 2 3 4 5 6 7 8))
+
+(defun row-column (number state)
+  (let* ((pos-0 (position number state))
          (col (mod pos-0 3))
          (row (floor (/ pos-0 3))))
     (list row col)))
 
+(defun blank-row-column (state)
+  (row-column 0 state))
+
+(defun row-of (number state)
+  (first (row-column number state)))
+
+(defun column-of (number state)
+  (second (row-column number state)))
+
 (defun blank-row (state)
-  (first (row-column state)))
+  (first (blank-row-column state)))
 
 (defun blank-column (state)
-  (second (row-column state)))
+  (second (blank-row-column state)))
 
 (defun list-pos (row column state)
   (cond ((or (< row 0) (> row 2) (< column 0) (> column 2)) 'fail)
@@ -88,4 +99,29 @@
              (setf (nth (list-pos row column new-state) new-state) (nth (list-pos row (+ column 1) state) state))
              (setf (nth (list-pos row (+ column 1) new-state) new-state) (nth (list-pos row column state) state))
              (copy-list new-state)))))
+
+(defun manhat-dist-of (number state1 state2)
+  (let* (
+         (row1 (row-of number state1))
+         (col1 (column-of number state1))
+         (row2 (row-of number state2))
+         (col2 (column-of number state2))
+         (distx (abs (- row1 row2)))
+         (disty (abs (- col1 col2)))
+         )
+    (+ distx disty)))
+
+(defun make-manhat-dist-func (state1 state2)
+  #'(lambda (number) (manhat-dist-of number state1 state2)))
+
+(defun manhat-dist (state1 state2)
+  (apply '+ (mapcar (make-manhat-dist-func state1 state2) *numbers*)))
+
+(setq *moves* 
+     '(move-blank-up move-blank-down 
+      move-blank-left move-blank-right))
+
+(defun heuristic (state)
+  (manhat-dist state *goal*))
+
 
