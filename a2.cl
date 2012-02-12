@@ -1,3 +1,10 @@
+;Leo 
+;ICS 361
+;Assignment 2
+;due 2/16/12
+
+
+
 (defun make-state (p1 p2 p3 p4 p5 p6 p7 p8 p9)
   (list p1 p2 p3 p4 p5 p6 p7 p8 p9))
 
@@ -36,7 +43,7 @@
   (second (blank-row-column state)))
 
 (defun list-pos (row column state)
-  (cond ((or (< row 0) (> row 2) (< column 0) (> column 2)) 'fail)
+  (cond ((or (< row 0) (> row 2) (< column 0) (> column 2)) 'no-such-position)
         (t (+ (* row 3) column))))
 
 (defun elt-at (row column state)
@@ -55,6 +62,7 @@
   (nth (list-pos row (- column 1) state) state))
 
 (defun move-blank-up (state)
+  ;(format t "in move-blank-up")
   (cond ((eq (blank-row state) 0) nil)
         (t (let* (
                   (new-state (clone-state state))
@@ -68,7 +76,8 @@
              (copy-list new-state)))))
 
 (defun move-blank-down (state)
-  (cond ((eq (blank-row state) 0) nil)
+  ;(format t "in move-blank-down")
+  (cond ((eq (blank-row state) 2) nil)
         (t (let* (
                   (new-state (clone-state state))
                   (row (blank-row state))
@@ -79,7 +88,8 @@
              (copy-list new-state)))))
 
 (defun move-blank-left (state)
-  (cond ((eq (blank-row state) 0) nil)
+  ;(format t "in move-blank-left")
+  (cond ((eq (blank-column state) 0) nil)
         (t (let* (
                   (new-state (clone-state state))
                   (row (blank-row state))
@@ -90,7 +100,8 @@
              (copy-list new-state)))))
 
 (defun move-blank-right (state)
-  (cond ((eq (blank-row state) 0) nil)
+  ;(format t "in move-blank-right")
+  (cond ((eq (blank-column state) 2) nil)
         (t (let* (
                   (new-state (clone-state state))
                   (row (blank-row state))
