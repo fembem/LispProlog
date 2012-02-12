@@ -24,23 +24,23 @@
 (defun blank-column (state)
   (second (row-column state)))
 
-(defun list-pos (row col state)
+(defun list-pos (row column state)
   (+ (* row 3) column))
 
 (defun elt-at (row column state)
-  (nth (list-pos row column)))
+  (nth (list-pos row column state) state))
 
 (defun elt-above (row column state)
-  (nth (list-pos (- row 1) column)))
+  (nth (list-pos (- row 1) column state) state))
 
 (defun elt-below (row column state)
-  (nth (list-pos (+ row 1) column)))
+  (nth (list-pos (+ row 1) column state ) state))
 
 (defun elt-to-right (row column state)
-  (nth (list-pos row (+ column 1))))
+  (nth (list-pos row (+ column 1) state) state))
 
 (defun elt-to-left (row column state)
-  (nth (list-pos row (- column 1))))
+  (nth (list-pos row (- column 1) state) state))
 
 (defun move-blank-up (state)
   (cond ((eq (blank-row state) 0) nil)
@@ -48,8 +48,7 @@
                   (new-state (clone-state state))
                   (row (blank-row state))
                   (column (blank-column state))
-                  (elt-above (elt-above state))
-                 )
+                  )
              (setf (elt-at row column new-state) (elt-above row column state))
              (setf (elt-above row column new-state) (elt-above row column state))
              (new-state)))))
