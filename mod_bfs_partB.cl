@@ -132,10 +132,12 @@
              (cond ((null child) rest)
                    ((retrieve-by-state child rest) rest)
                    ((setq the-state (retrieve-by-state child *open*)) 
-                    (delete-from-list-if-necessary the-state *open* depth) 
+                    (delete-from-list-if-necessary the-state *open* 
+                                                   (+ depth-of-parent (cost-from-to state child))) 
                     rest)
                    ((setq the-state (retrieve-by-state child *closed*)) 
-                    (delete-from-list-if-necessary the-state *closed* depth) 
+                    (delete-from-list-if-necessary the-state *closed* 
+                                                   (+ depth-of-parent (cost-from-to state child))) 
                     rest)
                    (t (cons (build-record child state (+ depth-of-parent (cost-from-to state child)) 
                                           (+ (+ depth-of-parent (cost-from-to state child)) (heuristic child))) 
