@@ -15,7 +15,7 @@
         (Mehadia . (Lugoj Dobreta))
         (Neamt . (Iasi))
         (Oradea . (Zerind Sibiu))
-        (Pitesti . (Rimnicu Craiova))
+        (Pitesti . (Rimnicu Craiova Bucharest))
         (Rimnicu . (Pitesti Sibiu Craiova))
         (Sibiu . (Arad Oradea Fagaras Rimnicu))
         (Timisoara . (Arad Lugoj))
