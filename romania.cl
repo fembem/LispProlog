@@ -86,12 +86,43 @@
          (format t "no cost info for ~A -> ~A~%" from to)
          'fail)))
 
+(defun get-dest0 (from)
+  (let ((adj-list (adjacents from)))
+    (cond (
+           ((>=(length adj-list) 0)
+            (cost-from-to from (nth 0 (adjacents from))))
+           (t nil)))))
 
-(defun move (from-state)
-  (cdr (assoc from-state *adjancies* :test #'equal)))
+(defun get-dest1 (from)
+  (let ((adj-list (adjacents from)))
+    (cond (
+           ((>=(length adj-list) 1)
+            (cost-from-to from (nth 0 (adjacents from))))
+           (t nil)))))
 
-(setq *moves* (list #'move))
+(defun get-dest2 (from)
+  (let ((adj-list (adjacents from)))
+    (cond (
+           ((>=(length adj-list) 2)
+            (cost-from-to from (nth 0 (adjacents from))))
+           (t nil)))))
+
+
+(defun get-dest3 (from)
+  (let ((adj-list (adjacents from)))
+    (cond (
+           ((>=(length adj-list) 3)
+            (cost-from-to from (nth 0 (adjacents from))))
+           (t nil)))))
+
+(defun get-move-functions ()
+  (list #'get-dest0 #'get-dest1 #'get-dest2 #'get-dest3))
+
+(setq *moves* (get-move-functions))
+
 
 (defun heuristic (state)
-  (assoc state *distance-to-Bucharest* :test #'equal))
+  (cdr (assoc state *distance-to-Bucharest* :test #'equal)))
 
+(defun adjacents (state)
+  (cdr (assoc state *adjancies* :test #'equal)))
