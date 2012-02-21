@@ -1,4 +1,32 @@
-(setq cost-list
+
+         
+(defconstant *adjancies*      
+      '(
+        (Arad . (Sibiu Zerind Timisoara))
+        (Bucharest . (Giurgiu Pitesti Fagaras Urziceni))
+        (Craoiva . (Dobreca Rimnicu Pitesti))
+        (Dobreta . (Craoiva Mehadia))
+        (Eforie . (Hirsova))
+        (Fagaras . (Sibiu Bucharest))
+        (Giurgiu . (Bucharest))
+        (Hirsova . (Urziceni Eforie))
+        (Iasi . (Neamt Vaslui))
+        (Lugoj . (Timisoara Mehadia))
+        (Mehadia . (Lugoj Dobreta))
+        (Neamt . (Iasi))
+        (Oradea . (Zerind Sibiu))
+        (Pitesti . (Rimnicu Craoiva))
+        (Rimnicu . (Pitesti Sibiu Craoiva))
+        (Sibiu . (Arad Oradea Fagaras Rimnicu))
+        (Timisoara . (Arad Lugoj))
+        (Urziceni . (Bucharest Hirsova Vaslui))
+        (Vaslui . (Urziceni Iasi))
+        (Zerind . (Arad Oradea))
+
+        ))
+
+         
+(defconstant *cost-list*
       '(
         ((Arad . Sibiu) . 140)
         ((Arad . Zerind) . 75)
@@ -26,7 +54,7 @@
         
         ))
 
-(setq distance-to-Bucharest
+(defconstant *distance-to-Bucharest*
       '(
         (Arad . 366)
         (Bucharest . 0)
@@ -50,4 +78,15 @@
         (Zerind . 374)
 
         ))
+
+(defun cost-from-to (from to)
+  (cond ((setq result (assoc (cons from to) *cost-list* :test #'equal)) (cdr result))
+        ((setq result (assoc (cons to from) *cost-list* :test #'equal)) (cdr result))
+        (t 'fail)))
+
+
+(defun move (from-state)
+  (cdr (assoc from-state *adjancies* :test #'equal)))
+
+(setq *moves* (list #'move))
 
