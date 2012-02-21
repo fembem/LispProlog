@@ -82,11 +82,16 @@
 (defun cost-from-to (from to)
   (cond ((setq result (assoc (cons from to) *cost-list* :test #'equal)) (cdr result))
         ((setq result (assoc (cons to from) *cost-list* :test #'equal)) (cdr result))
-        (t 'fail)))
+        (t 
+         (format t "no cost info for ~A -> ~A~%" from to)
+         'fail)))
 
 
 (defun move (from-state)
   (cdr (assoc from-state *adjancies* :test #'equal)))
 
 (setq *moves* (list #'move))
+
+(defun heuristic (state)
+  (assoc state *distance-to-Bucharest* :test #'equal))
 

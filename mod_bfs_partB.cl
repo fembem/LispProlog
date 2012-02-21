@@ -115,7 +115,7 @@
                    (t (setq *open* 
                             (insert-by-weight 
                                     (generate-descendants (get-state state)
-                                                          (1+ (get-depth state))
+                                                          (get-depth state)
                                                           *moves*)
                                     (cdr *open*)))
                       (best-first)))))))
@@ -123,12 +123,12 @@
 
 ;;; generate-descendants produces all the descendants of a state
 
-(defun generate-descendants (state depth moves)
+(defun generate-descendants (state depth-of-parent moves)
   (declare (special *closed*)
            (special *open*))
   (cond ((null moves) nil)
         (t (let ((child (funcall (car moves) state))
-                 (rest (generate-descendants state depth (cdr moves))))
+                 (rest (generate-descendants state depth-of-parent (cdr moves))))
              (cond ((null child) rest)
                    ((retrieve-by-state child rest) rest)
                    ((setq the-state (retrieve-by-state child *open*)) 
@@ -137,8 +137,8 @@
                    ((setq the-state (retrieve-by-state child *closed*)) 
                     (delete-from-list-if-necessary the-state *closed* depth) 
                     rest)
-                   (t (cons (build-record child state depth 
-                                          (+ depth (heuristic child))) 
+                   (t (cons (build-record child state (+ depth-of-parent (cost-from-to state child)) 
+                                          (+ (+ depth-of-parent (cost-from-to state child)) (heuristic child))) 
                             rest)))))))
 
 (defun delete-from-list-if-necessary (state list depth)
