@@ -88,32 +88,28 @@
 
 (defun get-dest0 (from)
   (let ((adj-list (adjacents from)))
-    (cond (
-           ((>=(length adj-list) 0)
-            (cost-from-to from (nth 0 (adjacents from))))
-           (t nil)))))
+    (cond ((>= (length adj-list) 0)
+            (nth 0 adj-list))
+           (t nil))))
 
 (defun get-dest1 (from)
   (let ((adj-list (adjacents from)))
-    (cond (
-           ((>=(length adj-list) 1)
-            (cost-from-to from (nth 0 (adjacents from))))
-           (t nil)))))
+    (cond ((>= (length adj-list) 1)
+            (nth 1 adj-list))
+           (t nil))))
 
 (defun get-dest2 (from)
   (let ((adj-list (adjacents from)))
-    (cond (
-           ((>=(length adj-list) 2)
-            (cost-from-to from (nth 0 (adjacents from))))
-           (t nil)))))
+    (cond ((>= (length adj-list) 2)
+            (nth 2 adj-list))
+           (t nil))))
 
 
 (defun get-dest3 (from)
   (let ((adj-list (adjacents from)))
-    (cond (
-           ((>=(length adj-list) 3)
-            (cost-from-to from (nth 0 (adjacents from))))
-           (t nil)))))
+    (cond ((>= (length adj-list) 3)
+            (nth 3 adj-list))
+           (t nil))))
 
 (defun get-move-functions ()
   (list #'get-dest0 #'get-dest1 #'get-dest2 #'get-dest3))
