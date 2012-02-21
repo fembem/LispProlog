@@ -106,8 +106,8 @@
            (special *open*)
            (special *closed*)
            (special *moves*))
-  ;(print "open =") (print *open*)
-  ;(print "closed =") (print *closed*)
+  (format t "~%open   = ~A~%" *open*) ;(print *open*)(format t "~%")
+  (format t   "closed = ~A~%" *closed*) ;(print *closed*)(format t "____________________~%")
   (cond ((null *open*) nil)
         (t (let ((state (car *open*)))
              (setq *closed* (cons state *closed*))
@@ -132,26 +132,22 @@
              (cond ((null child) rest)
                    ((retrieve-by-state child rest) rest)
                    ((setq the-state (retrieve-by-state child *open*)) 
-                    (delete-from-list-if-necessary the-state *open* 
+                    (delete-from-list-if-necessary the-state state *open* 
                                                    (+ depth-of-parent (cost-from-to state child))) 
                     rest)
                    ((setq the-state (retrieve-by-state child *closed*)) 
-                    (delete-from-list-if-necessary the-state *closed* 
+                    (delete-from-list-if-necessary the-state state *closed* 
                                                    (+ depth-of-parent (cost-from-to state child))) 
                     rest)
                    (t (cons (build-record child state (+ depth-of-parent (cost-from-to state child)) 
                                           (+ (+ depth-of-parent (cost-from-to state child)) (heuristic child))) 
                             rest)))))))
 
-(defun delete-from-list-if-necessary (state list depth)
+(defun delete-from-list-if-necessary (state parent list depth)
   (if (< depth (get-depth state)) 
       (progn
-        (print "deleting state")
-        (print state)
-        (print "with old depth")
-        (print (get-depth state))
-        (print "and new depth")
-        (print depth)
+        (format t "****found new route to ~A from ~A with cost ~A " (get-state state) parent depth )
+        (format t "instead of from ~A with cost ~A****~%" (get-parent state) (get-depth state))
         (delete-state-from-list state list)
       )
     ))
