@@ -1,3 +1,9 @@
+;;;Leo deCandia
+;;;ICS 361
+;;;Assignment 3 part A
+;;;modification of code in textbook
+
+
 ;;; This is one of the example programs from the textbook:
 ;;;
 ;;; Artificial Intelligence: 
@@ -106,8 +112,8 @@
            (special *open*)
            (special *closed*)
            (special *moves*))
-  ;(print "open =") (print *open*)
-  ;(print "closed =") (print *closed*)
+  ;(format t "~%open   = ~A~%" *open*) 
+  ;(format t   "closed = ~A~%" *closed*)
   (cond ((null *open*) nil)
         (t (let ((state (car *open*)))
              (setq *closed* (cons state *closed*))
@@ -132,24 +138,20 @@
              (cond ((null child) rest)
                    ((retrieve-by-state child rest) rest)
                    ((setq the-state (retrieve-by-state child *open*)) 
-                    (delete-from-list-if-necessary the-state *open* depth) 
+                    (delete-from-list-if-necessary the-state state *open* depth) 
                     rest)
                    ((setq the-state (retrieve-by-state child *closed*)) 
-                    (delete-from-list-if-necessary the-state *closed* depth) 
+                    (delete-from-list-if-necessary the-state state *closed* depth) 
                     rest)
                    (t (cons (build-record child state depth 
                                           (+ depth (heuristic child))) 
                             rest)))))))
 
-(defun delete-from-list-if-necessary (state list depth)
+(defun delete-from-list-if-necessary (state parent list depth)
   (if (< depth (get-depth state)) 
       (progn
-        (print "deleting state")
-        (print state)
-        (print "with old depth")
-        (print (get-depth state))
-        (print "and new depth")
-        (print depth)
+        (format t "****found new route to ~A from ~A with cost ~A " (get-state state) parent depth )
+        (format t "instead of from ~A with cost ~A****~%" (get-parent state) (get-depth state))
         (delete-state-from-list state list)
       )
     ))

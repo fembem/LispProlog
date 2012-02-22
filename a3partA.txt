@@ -1,0 +1,19 @@
+CG-USER(490): (LOAD "C:\\Users\\Leo\\ICS361\\LispProlog\\modified_best_first_search.cl")
+; Loading C:\Users\Leo\ICS361\LispProlog\modified_best_first_search.cl
+T
+CG-USER(491): (LOAD "C:\\Users\\Leo\\ICS361\\LispProlog\\8puzzle.cl")
+; Loading C:\Users\Leo\ICS361\LispProlog\8puzzle.cl
+T
+CG-USER(492): (SETQ SOLUTION (RUN-BEST '(3 5 2 0 1 6 7 8 4) *GOAL*))
+****found new route to (0 1 2 5 3 6 7 8 4) from (5 1 2 0 3 6 7 8 4) with cost 5 instead of from (1 0 2 5 3 6 7 8 4) with cost 7****
+****found new route to (1 3 2 7 4 5 8 6 0) from (1 3 2 7 4 5 8 0 6) with cost 11 instead of from (1 3 2 7 4 0 8 6 5) with cost 13****
+((3 5 2 0 1 6 7 8 4) (3 5 2 1 0 6 7 8 4) (3 5 2 1 8 6 7 0 4) (3 5 2 1 8 6 7 4 0) (3 5 2 1 8 0 7 4 6) (3 5 0 1 8 2 7 4 6) (3 0 5 1 8 2 7 4 6)
+ (0 3 5 1 8 2 7 4 6) (1 3 5 0 8 2 7 4 6) (1 3 5 8 0 2 7 4 6) ...)
+CG-USER(493): (PROGN (PRINT SOLUTION) NIL)
+
+((3 5 2 0 1 6 7 8 4) (3 5 2 1 0 6 7 8 4) (3 5 2 1 8 6 7 0 4) (3 5 2 1 8 6 7 4 0) (3 5 2 1 8 0 7 4 6) (3 5 0 1 8 2 7 4 6) (3 0 5 1 8 2 7 4 6)
+ (0 3 5 1 8 2 7 4 6) (1 3 5 0 8 2 7 4 6) (1 3 5 8 0 2 7 4 6) (1 3 5 8 2 0 7 4 6) (1 3 0 8 2 5 7 4 6) (1 0 3 8 2 5 7 4 6) (1 2 3 8 0 5 7 4 6)
+ (1 2 3 8 4 5 7 0 6) (1 2 3 8 4 5 7 6 0) (1 2 3 8 4 0 7 6 5) (1 2 3 8 0 4 7 6 5)) 
+NIL
+CG-USER(494): 
+

@@ -1,4 +1,6 @@
-
+;;;Leo deCandia
+;;;ICS 361
+;;;Assignment 3 part B
          
 (defconstant *adjancies*      
       '(

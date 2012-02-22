@@ -1,3 +1,9 @@
+;;;Leo deCandia
+;;;ICS 361
+;;;Assignment 3 part B
+;;;modification of code in textbook
+
+
 ;;; This is one of the example programs from the textbook:
 ;;;
 ;;; Artificial Intelligence: 
@@ -106,8 +112,8 @@
            (special *open*)
            (special *closed*)
            (special *moves*))
-  (format t "~%open   = ~A~%" *open*) ;(print *open*)(format t "~%")
-  (format t   "closed = ~A~%" *closed*) ;(print *closed*)(format t "____________________~%")
+  (format t "~%open   = ~A~%" *open*) 
+  (format t   "closed = ~A~%" *closed*)
   (cond ((null *open*) nil)
         (t (let ((state (car *open*)))
              (setq *closed* (cons state *closed*))

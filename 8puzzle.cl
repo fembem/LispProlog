@@ -2,7 +2,7 @@
 ;ICS 361
 ;Assignment 2
 ;due 2/16/12
-
+;reused for Assignment 3
 
 
 (defun make-state (p1 p2 p3 p4 p5 p6 p7 p8 p9)
