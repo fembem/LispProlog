@@ -90,21 +90,21 @@
          'fail)))
 
 (defun get-dest0 (from)
-  "get the first city in the adjacency lost for this city"
+  "get the first connected city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 0)
             (nth 0 adj-list))
            (t nil))))
 
 (defun get-dest1 (from)
-  "get the second city in the adjacency lost for this city"
+  "get the second connected city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 1)
             (nth 1 adj-list))
            (t nil))))
 
 (defun get-dest2 (from)
-  "get the third city in the adjacency lost for this city"
+  "get the third connected city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 2)
             (nth 2 adj-list))
@@ -112,7 +112,7 @@
 
 
 (defun get-dest3 (from)
-  "get the fourth city in the adjacency lost for this city"
+  "get the fourth connected city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 3)
             (nth 3 adj-list))

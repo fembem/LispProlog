@@ -62,6 +62,7 @@
   (nth (list-pos row (- column 1) state) state))
 
 (defun move-blank-up (state)
+  "move blank up"
   ;(format t "in move-blank-up")
   (cond ((eq (blank-row state) 0) nil)
         (t (let* (
@@ -76,6 +77,7 @@
              (copy-list new-state)))))
 
 (defun move-blank-down (state)
+  "move blank down"
   ;(format t "in move-blank-down")
   (cond ((eq (blank-row state) 2) nil)
         (t (let* (
@@ -88,6 +90,7 @@
              (copy-list new-state)))))
 
 (defun move-blank-left (state)
+  "move blank left"
   ;(format t "in move-blank-left")
   (cond ((eq (blank-column state) 0) nil)
         (t (let* (
@@ -100,6 +103,7 @@
              (copy-list new-state)))))
 
 (defun move-blank-right (state)
+  "move blank right"
   ;(format t "in move-blank-right")
   (cond ((eq (blank-column state) 2) nil)
         (t (let* (

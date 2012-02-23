@@ -135,28 +135,35 @@
   (cond ((null moves) nil)
         (t (let ((child (funcall (car moves) state))
                  (rest (generate-descendants state depth (cdr moves))))
+             ;(format t "invoking move: ~A~%" (documentation (car moves) 'function)) 
              (cond ((null child) rest)
                    ((retrieve-by-state child rest) rest)
-                   ((setq the-state (retrieve-by-state child *open*)) 
-                    (delete-from-list-if-necessary the-state state *open* depth) 
-                    rest)
-                   ((setq the-state (retrieve-by-state child *closed*)) 
-                    (delete-from-list-if-necessary the-state state *closed* depth) 
-                    rest)
-                   (t (cons (build-record child state depth 
-                                          (+ depth (heuristic child))) 
-                            rest)))))))
+                   (t
+                    ;check to see if we already have this state on the open or closed lists
+                    (cond ((setq refound-state (retrieve-by-state child *open*)) 
+                           (setq deleted (delete-from-list-if-necessary refound-state state *open* depth)))
+                          ((setq refound-state (retrieve-by-state child *closed*)) 
+                           (setq deleted (delete-from-list-if-necessary refound-state state *closed* depth))))
+                    ;add the state to the open list
+                    ;if the previous delete operation occurred, an addition will amount
+                    ;to either 'moving' the state from the closed to the open list or 
+                    ;changing it in the open list
+                    (if (or (not refound-state) deleted)
+                        (cons (build-record child state depth (+ depth (heuristic child))) 
+                              rest)
+                      rest)))))))
 
 ;;;determine if we have found a shorter path to the current node, and if so, delete the old state record
 
 (defun delete-from-list-if-necessary (state parent list depth)
-  (if (< depth (get-depth state)) 
+  (if 
+      (< depth (get-depth state)) 
       (progn
         (format t "****found new route to ~A from ~A with cost ~A " (get-state state) parent depth )
         (format t "instead of from ~A with cost ~A****~%" (get-parent state) (get-depth state))
         (delete-state-from-list state list)
-      )
-    ))
+        t)
+      nil))
 
 ;;;delete a state from a list
 
