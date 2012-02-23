@@ -112,8 +112,8 @@
            (special *open*)
            (special *closed*)
            (special *moves*))
-  ;(format t "~%open   = ~A~%" *open*) 
-  ;(format t   "closed = ~A~%" *closed*)
+  (format t "~%open   = ~A~%" *open*) 
+  (format t   "closed = ~A~%" *closed*)
   (cond ((null *open*) nil)
         (t (let ((state (car *open*)))
              (setq *closed* (cons state *closed*))
@@ -147,6 +147,8 @@
                                           (+ depth (heuristic child))) 
                             rest)))))))
 
+;;;determine if we have found a shorter path to the current node, and if so, delete the old state record
+
 (defun delete-from-list-if-necessary (state parent list depth)
   (if (< depth (get-depth state)) 
       (progn
@@ -155,6 +157,8 @@
         (delete-state-from-list state list)
       )
     ))
+
+;;;delete a state from a list
 
 (defun delete-state-from-list (state list)
   (setq list (delete state list)))

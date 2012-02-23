@@ -82,6 +82,7 @@
         ))
 
 (defun cost-from-to (from to)
+  "get the cost from one city to another city ajacent to it"
   (cond ((setq result (assoc (cons from to) *cost-list* :test #'equal)) (cdr result))
         ((setq result (assoc (cons to from) *cost-list* :test #'equal)) (cdr result))
         (t 
@@ -89,18 +90,21 @@
          'fail)))
 
 (defun get-dest0 (from)
+  "get the first city in the adjacency lost for this city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 0)
             (nth 0 adj-list))
            (t nil))))
 
 (defun get-dest1 (from)
+  "get the second city in the adjacency lost for this city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 1)
             (nth 1 adj-list))
            (t nil))))
 
 (defun get-dest2 (from)
+  "get the third city in the adjacency lost for this city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 2)
             (nth 2 adj-list))
@@ -108,19 +112,23 @@
 
 
 (defun get-dest3 (from)
+  "get the fourth city in the adjacency lost for this city"
   (let ((adj-list (adjacents from)))
     (cond ((>= (length adj-list) 3)
             (nth 3 adj-list))
            (t nil))))
 
 (defun get-move-functions ()
+  "returns functions that move to a city's 1st, 2nd, 3rd, and 4th adjacent citoes respectively"
   (list #'get-dest0 #'get-dest1 #'get-dest2 #'get-dest3))
 
 (setq *moves* (get-move-functions))
 
 
 (defun heuristic (state)
+  "returns the heuristic estimate to Bucharest from a city"
   (cdr (assoc state *distance-to-Bucharest* :test #'equal)))
 
 (defun adjacents (state)
+  "gets the cities adjacent to a city"
   (cdr (assoc state *adjancies* :test #'equal)))
