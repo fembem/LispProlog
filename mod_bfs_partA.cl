@@ -148,6 +148,9 @@
                     ;if the previous delete operation occurred, an addition will amount
                     ;to either 'moving' the state from the closed to the open list or 
                     ;changing it in the open list
+                    
+                    ;only add to the open list if the is a new state or it it is refound and the old
+                    ;one was deleted because of a longer path cost
                     (if (or (not refound-state) deleted)
                         (cons (build-record child state depth (+ depth (heuristic child))) 
                               rest)
