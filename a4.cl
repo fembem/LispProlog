@@ -41,11 +41,14 @@
   (:documentation "A relationship between two Concepts"))
 
 (defun make-concept (class &optional name)
-  (make-instance class 'name name))
+  (make-instance class :name name))
 
 (defun make-relation (class &optional name &key from to)
-  (make-instance class 'name name 'from from 'to to))
+  (make-instance class :name name :from from :to to))
 
 (defmacro define-concept (class-name)
   `(setq ,class-name (defclass ,class-name (Concept) () )))
+
+(defmacro define-relation (class-name from-concept to-concept)
+  `(setq ,class-name (defclass ,class-name (Relation) ((from :type ,from-concept) (to :type ,to-concept)) )))
 
