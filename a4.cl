@@ -52,3 +52,25 @@
 (defmacro define-relation (class-name from-concept to-concept)
   `(setq ,class-name (defclass ,class-name (Relation) ((from :type ,from-concept) (to :type ,to-concept)) )))
 
+(defmethod get-to ((concept Concept) (relation-class Relation))
+  (to relation-class))
+
+(defmethod get-to ((concept 'symbol) (relation-class Relation))
+  (get-to (find-class concept) relation-class))
+
+(defmethod get-to ((concept 'symbol) (relation-class 'symbol))
+  (get-to (find-class concept) (find-class relation-class)))
+
+(defmethod get-to ((concept Concept) (relation-class 'symbol))
+  (get-to concept (find-class relation-class)))
+
+
+(defun get-from (concept relation-class)
+  (from relation-class))
+
+(defun set-to (relation new-concept)
+  (setf (to relation) new-concept))
+
+(defun set-from (relation new-concept)
+  (setf (from relation) new-concept))
+
