@@ -75,7 +75,22 @@
 
 (defmethod get-to ((concept Concept) (relation-class Relation))
   "returns the concept in the to slot of a relation"
-  (to relation-class))
+  (find-to-of-matching-relation relation-class (froms concept)))
+
+(defun find-to-of-matching-relation (relation-class froms-list)
+  (cond ((null froms-list) nil)
+        ((and (eq (class-of (car froms-list)) relation-class)
+              (to (car froms-list)))
+         (to (car froms-list)))
+        (t (find-matching-relation-with-to relation (cdr froms-list)))))
+
+(defun find-from-of-matching-relation (relation-class tos-list)
+  (cond ((null tos-list) nil)
+        ((and (eq (class-of (car tos-list)) relation-class)
+              (from (car tos-list)))
+         (from (car tos-list)))
+        (t (find-matching-relation-with-to relation (cdr tos-list)))))
+
 
 (defmethod get-to ((concept symbol) (relation-class t))
   "helper method to get a concept instance bound to a symbol"
@@ -89,7 +104,7 @@
 
 (defmethod get-from ((concept Concept) (relation-class Relation))
   "returns the concept in the from slot of a relation"
-  (from relation-class))
+  (find-from-of-matching-relation relation-class (tos concept)))
 
 (defmethod get-from ((concept symbol) (relation-class t))
   "helper method to get a concept instance bound to a symbol"
