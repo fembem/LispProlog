@@ -26,12 +26,16 @@
          :documentation "the name of the Concept or Relation"))
   (:documentation "The top level class, subclasses include Concepts and Relations"))
 
+(print "defined Node")
+
 (defclass Concept (Node)
   ((froms :type list :accessor froms :initarg :froms :initform nil
           :documentation "a list of the Relations whose from slot is this Concept")
    (tos :type list :accessor tos :initarg :tos :initform nil
         :documentation "a list of the Relations whose to slot is this Concept"))
   (:documentation "An physical or conceptual object"))
+
+(print "defined Concept")
 
 (defclass Relation (Node)
   ((from :type Concept :accessor from :initarg :from
@@ -43,34 +47,64 @@
 (defun make-concept (class &optional name)
   (make-instance class :name name))
 
+(print "defined make-concept")
+
 (defun make-relation (class &optional name &key from to)
   (make-instance class :name name :from from :to to))
+
+(print "defined make-relation")
 
 (defmacro define-concept (class-name)
   `(setq ,class-name (defclass ,class-name (Concept) () )))
 
+(print "defined define-concept")
+
 (defmacro define-relation (class-name from-concept to-concept)
   `(setq ,class-name (defclass ,class-name (Relation) ((from :type ,from-concept) (to :type ,to-concept)) )))
+
+(print "defined define-relation")
 
 (defmethod get-to ((concept Concept) (relation-class Relation))
   (to relation-class))
 
-(defmethod get-to ((concept 'symbol) (relation-class Relation))
+(defmethod get-to ((concept symbol) (relation-class t))
   (get-to (find-class concept) relation-class))
 
-(defmethod get-to ((concept 'symbol) (relation-class 'symbol))
-  (get-to (find-class concept) (find-class relation-class)))
-
-(defmethod get-to ((concept Concept) (relation-class 'symbol))
+(defmethod get-to ((concept t) (relation-class symbol))
   (get-to concept (find-class relation-class)))
 
+(print "defined get-to")
 
-(defun get-from (concept relation-class)
+(defmethod get-from ((concept Concept) (relation-class Relation))
   (from relation-class))
 
-(defun set-to (relation new-concept)
-  (setf (to relation) new-concept))
+(defmethod get-from ((concept symbol) (relation-class t))
+  (get-from (find-class concept) relation-class))
 
-(defun set-from (relation new-concept)
-  (setf (from relation) new-concept))
+(defmethod get-from ((concept t) (relation-class symbol))
+  (get-from concept (find-class relation-class)))
 
+(print "defined get-from")
+
+(defmethod set-to ((relation Relation) (new-concept Concept))
+  (to relation-class))
+
+(defmethod set-to ((relation symbol) (new-concept t))
+  (set-to (find-class concept) relation-class))
+
+(defmethod set-to ((relation t) (new-concept symbol))
+  (set-to concept (find-class relation-class)))
+
+(print "defined set-to")
+
+
+(defmethod set-from ((relation Relation) (new-concept Concept))
+  (from relation-class))
+
+(defmethod set-from ((relation symbol) (new-concept t))
+  (set-from (find-class concept) relation-class))
+
+(defmethod set-from ((relation t) (new-concept symbol))
+  (set-from concept (find-class relation-class)))
+
+(print "defined set-from")
