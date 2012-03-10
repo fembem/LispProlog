@@ -147,24 +147,28 @@
 
 ;(print "defined set-from")
 
-(defmethod (setf to) :before ((relation Relation) (concept Concept))
+(defmethod (setf to) :before ((concept Concept) (relation Relation))
   "before method to delete a relation from the tos list of a concept the relation has in its to slot
   before the relation's to slot is set to another concept"
+  (print "calling :before method for (setf to)")
   (setf (tos concept) (delete relation (tos concept))))
 
-(defmethod (setf to) :after ((relation Relation) (concept Concept))
+(defmethod (setf to) :after ((concept Concept) (relation Relation))
   "after method to add a relation to the tos slot list of a concept after the relation's to
   slot has been set to that concept"
+  (print "calling :after method for (setf to)")
   (setf (tos concept) (cons relation (tos concept))))
 
-(defmethod (setf from) :before ((relation Relation) (concept Concept))
+(defmethod (setf from) :before ((concept Concept) (relation Relation) )
   "before method to delete a relation from the froms list of a concept the relation has in its from slot
   before the relation's from slot is set to another concept"
+  (print "calling :before method for (setf from)")
   (setf (froms concept) (delete relation (froms concept))))
 
-(defmethod (setf from) :after ((relation Relation) (concept Concept))
+(defmethod (setf from) :after ((concept Concept) (relation Relation))
   "after method to add a relation to the froms slot list of a concept after the relation's from
   slot has been set to that concept"
+  (print "calling :after method for (setf from)")
   (setf (froms concept) (cons relation (froms concept))))
 
 
