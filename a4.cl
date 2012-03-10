@@ -19,7 +19,7 @@
 ;;; Help | Interactive IDE Intro command.  And be sure to explore
 ;;; the other facilities on the Help menu.
 
-
+;;(load "C:\\Users\\Leo\\ICS361\\LispProlog\\a4.cl")
 
 (defclass Node ()
   ((name :accessor name :initarg :name :type 'symbol
@@ -87,24 +87,83 @@
 (print "defined get-from")
 
 (defmethod set-to ((relation Relation) (new-concept Concept))
-  (to relation-class))
+  (setf (to relation) new-concept))
 
 (defmethod set-to ((relation symbol) (new-concept t))
-  (set-to (find-class concept) relation-class))
+  (set-to (find-class relation) new-concept))
 
 (defmethod set-to ((relation t) (new-concept symbol))
-  (set-to concept (find-class relation-class)))
+  (set-to relation (find-class new-concept)))
 
 (print "defined set-to")
 
 
 (defmethod set-from ((relation Relation) (new-concept Concept))
-  (from relation-class))
+  (setf (from relation) new-concept))
 
 (defmethod set-from ((relation symbol) (new-concept t))
-  (set-from (find-class concept) relation-class))
+  (set-from (find-class relation) new-concept))
 
 (defmethod set-from ((relation t) (new-concept symbol))
-  (set-from concept (find-class relation-class)))
+  (set-from relation (find-class new-concept)))
 
 (print "defined set-from")
+
+(defun test-a4 ()
+  (print "(define-concept Human) -> ")
+  (print (define-concept Human))
+  (print "human -> ")
+  (print human)
+  (print "(define-concept Dog) -> ")
+  (print (define-concept Dog))
+  (print "dog -> ")
+  (print dog)
+  (print "(define-relation Owns Human Dog) -> ")
+  (print (define-relation Owns Human Dog))
+  (print "(setq h1 (make-concept 'Human 'John)) -> ")
+  (print (setq h1 (make-concept 'Human 'John)))
+  (print "(name h1) -> ")
+  (print (name h1))
+  (print "(setq d1 (make-concept 'Dog 'Fido)) -> ")
+  (print (setq d1 (make-concept 'Dog 'Fido)))
+  (print "(name d1) -> ")
+  (print (name d1))
+  (print "(setq o1 (make-relation 'Owns 'owns1 :from h1 :to d1)) -> ")
+  (print (setq o1 (make-relation 'Owns 'owns1 :from h1 :to d1)))
+  (print "(from o1) -> ")
+  (print (from o1))
+  (print "(to o1) -> ")
+  (print (to o1))
+  (print "(froms h1) -> ")
+  (print (froms h1))
+  (print "(tos d1) -> ")
+  (print (tos d1))
+  (print "(setq h2 (make-concept 'Human 'Sue)) -> ")
+  (print (setq h2 (make-concept 'Human 'Sue)))
+  (print "(setf (from o1) h2) -> ")
+  (print (setf (from o1) h2))
+  (print "(from o1) -> ")
+  (print (from o1))
+  (print "(name (from o1)) -> ")
+  (print (name (from o1)))
+  (print "(froms h1) -> ")
+  (print (froms h1))
+  (print "(froms h2) -> ")
+  (print (froms h2))
+  (print "(setq d2 (make-concept 'Dog 'Lassie)) -> ")
+  (print (setq d2 (make-concept 'Dog 'Lassie)))
+  (print "(setf (to o1) d2) -> ")
+  (print (setf (to o1) d2))
+  (print "(to o1) -> ")
+  (print (to o1))
+  (print "(name (to o1)) -> ")
+  (print (name (to o1)))
+  (print "(tos d1) -> ")
+  (print (tos d1))
+  (print "(tos d2) -> ")
+  (print (tos d2))
+  "done"
+  )
+
+(test-a4)
+
