@@ -73,24 +73,17 @@
 
 ;(print "defined define-relation")
 
-(defmethod get-to ((concept Concept) (relation-class Relation))
+(defmethod get-to ((concept Concept) (relation-class Standard-Class))
   "returns the concept in the to slot of a relation"
   (find-to-of-matching-relation relation-class (froms concept)))
 
 (defun find-to-of-matching-relation (relation-class froms-list)
+  "given a relation class and a list of relations, find a relation in that list that has a non-null to slot"
   (cond ((null froms-list) nil)
         ((and (eq (class-of (car froms-list)) relation-class)
               (to (car froms-list)))
          (to (car froms-list)))
         (t (find-matching-relation-with-to relation (cdr froms-list)))))
-
-(defun find-from-of-matching-relation (relation-class tos-list)
-  (cond ((null tos-list) nil)
-        ((and (eq (class-of (car tos-list)) relation-class)
-              (from (car tos-list)))
-         (from (car tos-list)))
-        (t (find-matching-relation-with-to relation (cdr tos-list)))))
-
 
 (defmethod get-to ((concept symbol) (relation-class t))
   "helper method to get a concept instance bound to a symbol"
@@ -102,9 +95,18 @@
 
 ;(print "defined get-to")
 
-(defmethod get-from ((concept Concept) (relation-class Relation))
+(defmethod get-from ((concept Concept) (relation-class Standard-Class))
   "returns the concept in the from slot of a relation"
   (find-from-of-matching-relation relation-class (tos concept)))
+
+(defun find-from-of-matching-relation (relation-class tos-list)
+  "given a relation class and a list of relations, find a relation in that list that has a non-null from slot"
+  (cond ((null tos-list) nil)
+        ((and (eq (class-of (car tos-list)) relation-class)
+              (from (car tos-list)))
+         (from (car tos-list)))
+        (t (find-matching-relation-with-to relation (cdr tos-list)))))
+
 
 (defmethod get-from ((concept symbol) (relation-class t))
   "helper method to get a concept instance bound to a symbol"
@@ -148,7 +150,7 @@
 (defmethod (setf to) :before ((relation Relation) (concept Concept))
   "before method to delete a relation from the tos list of a concept the relation has in its to slot
   before the relation's to slot is set to another concept"
-  (delete relation (tos concept)))
+  (setf (tos concept) (delete relation (tos concept))))
 
 (defmethod (setf to) :after ((relation Relation) (concept Concept))
   "after method to add a relation to the tos slot list of a concept after the relation's to
@@ -158,7 +160,7 @@
 (defmethod (setf from) :before ((relation Relation) (concept Concept))
   "before method to delete a relation from the froms list of a concept the relation has in its from slot
   before the relation's from slot is set to another concept"
-  (delete relation (froms concept)))
+  (setf (froms concept) (delete relation (froms concept))))
 
 (defmethod (setf from) :after ((relation Relation) (concept Concept))
   "after method to add a relation to the froms slot list of a concept after the relation's from
