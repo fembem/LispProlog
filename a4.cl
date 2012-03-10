@@ -50,7 +50,11 @@
 (print "defined make-concept")
 
 (defun make-relation (class &optional name &key from to)
-  (make-instance class :name name :from from :to to))
+  (setq instance (make-instance class :name name :from from :to to))
+  (if from (setf (froms from) (cons instance (froms from))))
+  (if to (setf (tos to) (cons instance (tos to))))
+  instance
+  )
 
 (print "defined make-relation")
 
@@ -108,6 +112,12 @@
   (set-from relation (find-class new-concept)))
 
 (print "defined set-from")
+
+(defmethod (setf to) :after ((relation Relation) (concept Concept))
+  ())
+
+(defmethod (setf to) :after ((relation Relation) (concept Concept))
+  ())
 
 (defun test-a4 ()
   (print "(define-concept Human) -> ")
