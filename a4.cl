@@ -1,23 +1,7 @@
-;;; This is the IDE's built-in-editor, where you create and edit
-;;; lisp source code.  You could use some other editor instead,
-;;; though the IDE's menu-bar commands would not be applicable there.
-;;; 
-;;; This editor has a tab for each file that it's editing.  You can
-;;; create a new editor buffer at any time with the File | New command.
-;;; Other commands such as Search | Find Definitions will create
-;;; editor buffers automatically for existing code.
-;;; 
-;;; You can use the File | Compile and Load command to compile and
-;;; load an entire file, or compile an individual definition by
-;;; placing the text cursor inside it and using Tools | Incremental
-;;; Compile.  You can similarly evaluate test expressions in the
-;;; editor by using Tools | Incremental Evaluation; the returned
-;;; values and any printed output will appear in a lisp listener
-;;; in the Debug Window.
-;;; 
-;;; For a brief introduction to other IDE tools, try the
-;;; Help | Interactive IDE Intro command.  And be sure to explore
-;;; the other facilities on the Help menu.
+;;; Leo deCandia
+;;; ICS361
+;;; Aassignment 4
+
 
 ;;(load "C:\\Users\\Leo\\ICS361\\LispProlog\\a4.cl")
 
@@ -73,6 +57,10 @@
 
 ;(print "defined define-relation")
 
+(defgeneric get-to (concept relation-class)
+  (:documentation "get the concept in the to slot of any relation of type relation-class
+   having the given concept in its from slot"))
+
 (defmethod get-to ((concept Concept) (relation-class Standard-Class))
   "returns the concept in the to slot of a relation"
   (find-to-of-matching-relation relation-class (froms concept)))
@@ -94,6 +82,11 @@
   (get-to concept (find-class relation-class)))
 
 ;(print "defined get-to")
+
+(defgeneric get-from (concept relation-class)
+  (:documentation "get the concept in the from slot of any relation of type relation-class
+   having the given concept in its to slot"))
+
 
 (defmethod get-from ((concept Concept) (relation-class Standard-Class))
   "returns the concept in the from slot of a relation"
@@ -118,6 +111,9 @@
 
 ;(print "defined get-from")
 
+(defgeneric set-to (relation new-concept)
+  (:documentation "set the to slot of the given relation to new-concept"))
+
 (defmethod set-to ((relation Relation) (new-concept Concept))
   "sets the to slot of a relation to a new concept"
   (setf (to relation) new-concept))
@@ -132,6 +128,8 @@
 
 ;(print "defined set-to")
 
+(defgeneric set-from (relation new-concept)
+  (:documentation "set the from slot of the given relation to new-concept"))
 
 (defmethod set-from ((relation Relation) (new-concept Concept))
   "sets the from slot of a relation to a new concept"
@@ -150,20 +148,21 @@
 (defmethod (setf to) :before ((concept Concept) (relation Relation))
   "before method to delete a relation from the tos list of a concept the relation has in its to slot
   before the relation's to slot is set to another concept"
-  (print "calling :before method for (setf to)")
-  (setf (tos concept) (delete relation (tos concept))))
+  ;delete the relation from the tos slot of the concept in the current to slot in the relation
+  (setf (tos (to relation)) (delete relation (tos (to relation)))))
 
 (defmethod (setf to) :after ((concept Concept) (relation Relation))
   "after method to add a relation to the tos slot list of a concept after the relation's to
   slot has been set to that concept"
-  (print "calling :after method for (setf to)")
+  ;(print "calling :after method for (setf to)")
   (setf (tos concept) (cons relation (tos concept))))
 
 (defmethod (setf from) :before ((concept Concept) (relation Relation) )
   "before method to delete a relation from the froms list of a concept the relation has in its from slot
   before the relation's from slot is set to another concept"
-  (print "calling :before method for (setf from)")
-  (setf (froms concept) (delete relation (froms concept))))
+  ;(print "calling :before method for (setf from)")
+  ;delete the relation from the froms slot of the concept in the current from slot in the relation
+  (setf (froms (from relation)) (delete relation (froms (from relation)))))
 
 (defmethod (setf from) :after ((concept Concept) (relation Relation))
   "after method to add a relation to the froms slot list of a concept after the relation's from
@@ -228,5 +227,5 @@
   "done"
   )
 
-(test-a4)
+;(test-a4)
 
