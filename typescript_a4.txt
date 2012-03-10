@@ -1,0 +1,58 @@
+CG-USER(51): (LOAD "C:\\Users\\Leo\\ICS361\\LispProlog\\a4.cl")
+; Loading C:\Users\Leo\ICS361\LispProlog\a4.cl
+
+"(define-concept Human) -> " 
+#<STANDARD-CLASS HUMAN> 
+"human -> " 
+#<STANDARD-CLASS HUMAN> 
+"(define-concept Dog) -> " 
+#<STANDARD-CLASS DOG> 
+"dog -> " 
+#<STANDARD-CLASS DOG> 
+"(define-relation Owns Human Dog) -> " 
+#<STANDARD-CLASS OWNS> 
+"(setq h1 (make-concept 'Human 'John)) -> " 
+#<HUMAN @ #x20ffc53a> 
+"(name h1) -> " 
+JOHN 
+"(setq d1 (make-concept 'Dog 'Fido)) -> " 
+#<DOG @ #x20ffcd32> 
+"(name d1) -> " 
+FIDO 
+"(setq o1 (make-relation 'Owns 'owns1 :from h1 :to d1)) -> " 
+#<OWNS @ #x20ffd59a> 
+"(from o1) -> " 
+#<HUMAN @ #x20ffc53a> 
+"(to o1) -> " 
+#<DOG @ #x20ffcd32> 
+"(froms h1) -> " 
+(#<OWNS @ #x20ffd59a>) 
+"(tos d1) -> " 
+(#<OWNS @ #x20ffd59a>) 
+"(setq h2 (make-concept 'Human 'Sue)) -> " 
+#<HUMAN @ #x20ffe7fa> 
+"(setf (from o1) h2) -> " 
+#<HUMAN @ #x20ffe7fa> 
+"(from o1) -> " 
+#<HUMAN @ #x20ffe7fa> 
+"(name (from o1)) -> " 
+SUE 
+"(froms h1) -> " 
+(#<OWNS @ #x20ffd59a>) 
+"(froms h2) -> " 
+NIL 
+"(setq d2 (make-concept 'Dog 'Lassie)) -> " 
+#<DOG @ #x20fff4fa> 
+"(setf (to o1) d2) -> " 
+#<DOG @ #x20fff4fa> 
+"(to o1) -> " 
+#<DOG @ #x20fff4fa> 
+"(name (to o1)) -> " 
+LASSIE 
+"(tos d1) -> " 
+(#<OWNS @ #x20ffd59a>) 
+"(tos d2) -> " 
+NIL 
+T
+CG-USER(52): 
+
