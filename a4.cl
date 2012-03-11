@@ -38,8 +38,10 @@
   "makes and returns an instance of relation of type class, with names set to name if given and
   with the from and to slots given by the respective optional parameters"
   (let ((instance (make-instance class :name name :from from :to to)))
-    (if from (setf (froms from) (cons instance (froms from))))
-    (if to (setf (tos to) (cons instance (tos to))))
+    ;(if from (setf (froms from) (cons instance (froms from))))
+    (set-from instance from)
+    ;(if to (setf (tos to) (cons instance (tos to))))
+    (set-to instance to)
     instance))
 
 ;(print "defined make-relation")
@@ -75,7 +77,7 @@
 
 (defmethod get-to ((concept symbol) (relation-class t))
   "helper method to get a concept instance bound to a symbol"
-  (get-to (find-class concept) relation-class))
+  (get-to (symbol-value concept) relation-class))
 
 (defmethod get-to ((concept t) (relation-class symbol))
   "helper method to get a relation class bound to a symbol"
@@ -103,7 +105,7 @@
 
 (defmethod get-from ((concept symbol) (relation-class t))
   "helper method to get a concept instance bound to a symbol"
-  (get-from (find-class concept) relation-class))
+  (get-from (symbol-value concept) relation-class))
 
 (defmethod get-from ((concept t) (relation-class symbol))
   "helper method to get a relation class bound to a symbol"
@@ -116,15 +118,15 @@
 
 (defmethod set-to ((relation Relation) (new-concept Concept))
   "sets the to slot of a relation to a new concept"
-  (setf (to relation) new-concept))
+  (setf (slot-value relation 'to) new-concept))
 
 (defmethod set-to ((relation symbol) (new-concept t))
   "helper method to get a relation instance bound to a symbol"
-  (set-to (find-class relation) new-concept))
+  (set-to (symbol-value relation) new-concept))
 
 (defmethod set-to ((relation t) (new-concept symbol))
   "helper method to get a concept instance bound to a symbol"
-  (set-to relation (find-class new-concept)))
+  (set-to relation (symbol-value new-concept)))
 
 ;(print "defined set-to")
 
@@ -133,23 +135,28 @@
 
 (defmethod set-from ((relation Relation) (new-concept Concept))
   "sets the from slot of a relation to a new concept"
-  (setf (from relation) new-concept))
+  (print "set-from befoa")
+  (setf (slot-value relation 'from) new-concept)
+  (print "set-from afta")
+  )
 
 (defmethod set-from ((relation symbol) (new-concept t))
   "helper method to get a relation instance bound to a symbol"
-  (set-from (find-class relation) new-concept))
+  (set-from (symbol-value relation) new-concept))
 
 (defmethod set-from ((relation t) (new-concept symbol))
   "helper method to get a concept instance bound to a symbol"
-  (set-from relation (find-class new-concept)))
+  (set-from relation (symbol-value new-concept)))
 
 ;(print "defined set-from")
 
 (defmethod (setf to) :before ((concept Concept) (relation Relation))
   "before method to delete a relation from the tos list of a concept the relation has in its to slot
   before the relation's to slot is set to another concept"
+  ;(print "calling :before method for (setf to)")
   ;delete the relation from the tos slot of the concept in the current to slot in the relation
-  (setf (tos (to relation)) (delete relation (tos (to relation)))))
+  (if (slot-boundp relation 'to)
+      (setf (tos (to relation)) (delete relation (tos (to relation))))))
 
 (defmethod (setf to) :after ((concept Concept) (relation Relation))
   "after method to add a relation to the tos slot list of a concept after the relation's to
@@ -162,12 +169,13 @@
   before the relation's from slot is set to another concept"
   ;(print "calling :before method for (setf from)")
   ;delete the relation from the froms slot of the concept in the current from slot in the relation
-  (setf (froms (from relation)) (delete relation (froms (from relation)))))
+  (if (slot-boundp relation 'from)
+      (setf (froms (from relation)) (delete relation (froms (from relation))))))
 
 (defmethod (setf from) :after ((concept Concept) (relation Relation))
   "after method to add a relation to the froms slot list of a concept after the relation's from
   slot has been set to that concept"
-  (print "calling :after method for (setf from)")
+  ;(print "calling :after method for (setf from)")
   (setf (froms concept) (cons relation (froms concept))))
 
 
