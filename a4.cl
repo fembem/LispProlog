@@ -39,9 +39,11 @@
   with the from and to slots given by the respective optional parameters"
   (let ((instance (make-instance class :name name :from from :to to)))
     ;(if from (setf (froms from) (cons instance (froms from))))
-    (set-from instance from)
+    ;call this just so the froms slot will be updated in the from concept by the :before and :after methods
+    (if from (set-from instance from))
     ;(if to (setf (tos to) (cons instance (tos to))))
-    (set-to instance to)
+    ;call this just so the froms slot will be updated in the from concept by the :before and :after methods
+    (if to (set-to instance to))
     instance))
 
 ;(print "defined make-relation")
@@ -118,7 +120,7 @@
 
 (defmethod set-to ((relation Relation) (new-concept Concept))
   "sets the to slot of a relation to a new concept"
-  (setf (slot-value relation 'to) new-concept))
+  (setf (to relation) new-concept))
 
 (defmethod set-to ((relation symbol) (new-concept t))
   "helper method to get a relation instance bound to a symbol"
@@ -135,10 +137,7 @@
 
 (defmethod set-from ((relation Relation) (new-concept Concept))
   "sets the from slot of a relation to a new concept"
-  (print "set-from befoa")
-  (setf (slot-value relation 'from) new-concept)
-  (print "set-from afta")
-  )
+  (setf (from relation) new-concept))
 
 (defmethod set-from ((relation symbol) (new-concept t))
   "helper method to get a relation instance bound to a symbol"
