@@ -69,3 +69,4 @@ has_husband(X, Y) :- has_spouse(X, Y), male(Y).
 has_wife(X, Y) :- has_spouse(X, Y), female(Y).
 
 
+
