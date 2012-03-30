@@ -26,26 +26,46 @@ female(sister_in_law).    % corrected! was male(sister_in_law).
 % not be entered directly in the database
 has_spouse_base(me, wife).
 has_spouse_base(father, daughter_in_law).
+%has_spouse(X, Y) is a dual relation true if either of
+%the base relations is true
 has_spouse(X, Y) :- has_spouse_base(X, Y).
 has_spouse(X, Y) :- has_spouse_base(Y, X).
 
+%a parent has a child if either the child is biological or if the
+%child is a child through marriage to a biological parent
 has_child(X, Y) :- has_biological_child(X, Y).
 has_child(X ,Y) :- has_spouse(X, Z), has_biological_child(Z, Y).
+%a grandchild is the child of the child of a person
 has_grandchild(X, Z) :- has_child(X, Y), has_child(Y, Z).
+%a son is a male child
 has_son(X, Y) :- has_child(X, Y), male(Y).
+%a daughter is a female child
 has_daughter(X, Y) :- has_child(X, Y), female(Y).
+% a grandson is a male grandchild
 has_grandson(X, Y) :- has_grandchild(X, Y), male(Y).
+% a granddaughter is a female grandchild
 has_granddaughter(X, Y) :- has_grandchild(X, Y), female(Y).
+%the has_parent relationship is the revese of the has_child relationship
 has_parent(X, Y) :- has_child(Y, X).
+% a father is a male parent
 has_father(X, Y) :- has_parent(X, Y), male(Y).
+%a mother is a female parent
 has_mother(X, Y) :- has_parent(X, Y), female(Y).
+%grandparanet is the reverse relationship of grandchild
 has_grandparent(X, Y) :- has_grandchild(Y, X).
+%a grandfather is a male garndparent
 has_grandfather(X, Y) :- has_grandparent(X, Y), male(Y).
+%a grandmother is a female garndparent
 has_grandmother(X, Y) :- has_grandparent(X, Y), female(Y).
+%siblings are two different people with a parent on common
 has_sibling(X, Y) :- has_parent(X, Z), has_parent(Y, Z), X \= Y.
+% a sister is a female sibling
 has_sister(X, Y) :- has_sibling(X, Y), female(Y).
+%a brother is a male sibling
 has_brother(X, Y) :- has_sibling(X, Y), male(Y).
+% a husband is a male spouse
 has_husband(X, Y) :- has_spouse(X, Y), male(Y).
+% a wife is a female spouse
 has_wife(X, Y) :- has_spouse(X, Y), female(Y).
 
 
