@@ -24,9 +24,10 @@ female(sister_in_law).    % corrected! was male(sister_in_law).
 % husband of the wife Wife.  A separate inference rule is
 % used to infer has_spouse(Wife, Husband), so these should
 % not be entered directly in the database
-has_spouse(me, wife).
-has_spouse(father, daughter_in_law).
-has_spouse(X, Y) :- has_spouse(Y, X).
+has_spouse_base(me, wife).
+has_spouse_base(father, daughter_in_law).
+has_spouse(X, Y) :- has_spouse_base(X, Y).
+has_spouse(X, Y) :- has_spouse_base(Y, X).
 
 has_child(X, Y) :- has_biological_child(X, Y).
 has_child(X ,Y) :- has_spouse(X, Z), has_biological_child(Z, Y).
@@ -41,7 +42,7 @@ has_mother(X, Y) :- has_parent(X, Y), female(Y).
 has_grandparent(X, Y) :- has_grandchild(Y, X).
 has_grandfather(X, Y) :- has_grandparent(X, Y), male(Y).
 has_grandmother(X, Y) :- has_grandparent(X, Y), female(Y).
-has_sibling(X, Y) :- has_parent(X, Z), has_parent(Y, Z).
+has_sibling(X, Y) :- has_parent(X, Z), has_parent(Y, Z), X \= Y.
 has_sister(X, Y) :- has_sibling(X, Y), female(Y).
 has_brother(X, Y) :- has_sibling(X, Y), male(Y).
 has_husband(X, Y) :- has_spouse(X, Y), male(Y).
