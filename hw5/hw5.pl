@@ -1,3 +1,7 @@
+%ICS 361
+%Leo deCandia
+%HW 5
+
 % has_biological_child(Parent, Child) specifies that Parent
 % is the biological father or mother of Child (versus adopted)
 has_biological_child(father, me).
