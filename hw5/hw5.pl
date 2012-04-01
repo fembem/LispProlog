@@ -57,8 +57,14 @@ has_grandparent(X, Y) :- has_grandchild(Y, X).
 has_grandfather(X, Y) :- has_grandparent(X, Y), male(Y).
 %a grandmother is a female garndparent
 has_grandmother(X, Y) :- has_grandparent(X, Y), female(Y).
+
 %siblings are two different people with a parent on common
-has_sibling(X, Y) :- has_parent(X, Z), has_parent(Y, Z), X \= Y.
+%has_sibling(X, Y) :- has_parent(X, Z), has_parent(Y, Z), X \= Y.
+%has_sibling(X,Y) :- has_parent(X, P), has_parent(Y, P), \+X=Y.
+%found this code to elimiate duplicates in a set at 
+%http://www.csee.umbc.edu/~finin/prolog/sibling/siblings.html
+has_sibling(X,Y) :- setof((X,Y), P^(has_parent(X, P),has_parent(Y, P), \+X=Y), Sibs), member((X,Y), Sibs).
+
 % a sister is a female sibling
 has_sister(X, Y) :- has_sibling(X, Y), female(Y).
 %a brother is a male sibling
@@ -67,6 +73,4 @@ has_brother(X, Y) :- has_sibling(X, Y), male(Y).
 has_husband(X, Y) :- has_spouse(X, Y), male(Y).
 % a wife is a female spouse
 has_wife(X, Y) :- has_spouse(X, Y), female(Y).
-
-
 

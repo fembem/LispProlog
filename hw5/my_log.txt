@@ -1,13 +1,15 @@
-Welcome to the SWI-Prolog server on thread pdt_console_client_0@mango
-
-true.
-
-2 ?-  
+12 ?-  
 pdt_reload('c:/users/leo/ics361/lispprolog/hw5/hw5.pl').
-% c:/users/leo/ics361/lispprolog/hw5/hw5 compiled 0.00 sec, 40 clauses
+|    % c:/users/leo/ics361/lispprolog/hw5/hw5 compiled 0.00 sec, 40 clauses
 true.
 
-3 ?- has_spouse(X, Y).
+13 ?- noprotocol.
+true.
+
+14 ?- protocol('mylog2.txt').
+true.
+
+15 ?- has_spouse(X, Y).
 X = me,
 Y = wife ;
 X = father,
@@ -17,7 +19,7 @@ Y = me ;
 X = daughter_in_law,
 Y = father.
 
-4 ?- has_child(X, Y).
+16 ?- has_child(X, Y).
 X = father,
 Y = me ;
 X = father,
@@ -41,20 +43,20 @@ Y = sister ;
 X = daughter_in_law,
 Y = brother.
 
-5 ?- has_husband(X, Y).
+17 ?- has_husband(X, Y).
 X = wife,
 Y = me ;
 X = daughter_in_law,
 Y = father.
 
-6 ?- has_wife(X, Y).
+18 ?- has_wife(X, Y).
 X = me,
 Y = wife ;
 X = father,
 Y = daughter_in_law ;
 false.
 
-7 ?- has_son(X, Y).
+19 ?- has_son(X, Y).
 X = father,
 Y = me ;
 X = father,
@@ -66,7 +68,7 @@ Y = me ;
 X = daughter_in_law,
 Y = brother.
 
-8 ?- has_daughter(X, Y).
+20 ?- has_daughter(X, Y).
 X = father,
 Y = sister ;
 X = wife,
@@ -81,7 +83,7 @@ X = daughter_in_law,
 Y = sister ;
 false.
 
-9 ?- has_grandchild(X, Y).
+21 ?- has_grandchild(X, Y).
 X = father,
 Y = daughter_in_law ;
 X = wife,
@@ -100,7 +102,7 @@ Y = brother ;
 X = Y, Y = daughter_in_law ;
 false.
 
-10 ?- has_grandson(X, Y).
+22 ?- has_grandson(X, Y).
 X = wife,
 Y = me ;
 X = wife,
@@ -110,7 +112,7 @@ X = me,
 Y = brother ;
 false.
 
-11 ?- has_granddaughter(X, Y).
+23 ?- has_granddaughter(X, Y).
 X = father,
 Y = daughter_in_law ;
 X = wife,
@@ -122,7 +124,7 @@ Y = sister ;
 X = Y, Y = daughter_in_law ;
 false.
 
-12 ?- has_parent(X, Y).
+24 ?- has_parent(X, Y).
 X = me,
 Y = father ;
 X = sister,
@@ -146,7 +148,7 @@ Y = daughter_in_law ;
 X = brother,
 Y = daughter_in_law.
 
-13 ?- has_father(X, Y).
+25 ?- has_father(X, Y).
 X = me,
 Y = father ;
 X = sister,
@@ -157,7 +159,7 @@ X = daughter_in_law,
 Y = me ;
 false.
 
-14 ?- has_mother(X, Y).
+26 ?- has_mother(X, Y).
 X = daughter_in_law,
 Y = wife ;
 X = me,
@@ -167,7 +169,7 @@ Y = daughter_in_law ;
 X = brother,
 Y = daughter_in_law.
 
-15 ?- has_grandparent(X, Y).
+27 ?- has_grandparent(X, Y).
 X = daughter_in_law,
 Y = father ;
 X = me,
@@ -186,7 +188,7 @@ Y = me ;
 X = Y, Y = daughter_in_law ;
 false.
 
-16 ?- has_grandfather(X, Y).
+28 ?- has_grandfather(X, Y).
 X = daughter_in_law,
 Y = father ;
 X = Y, Y = me ;
@@ -196,7 +198,7 @@ X = brother,
 Y = me ;
 false.
 
-17 ?- has_grandmother(X, Y).
+29 ?- has_grandmother(X, Y).
 X = me,
 Y = wife ;
 X = sister,
@@ -206,95 +208,80 @@ Y = wife ;
 X = Y, Y = daughter_in_law ;
 false.
 
-18 ?- has_sibling(X, Y).
-X = me,
-Y = sister ;
-X = me,
-Y = brother ;
-X = sister,
-Y = me ;
-X = sister,
-Y = brother ;
+30 ?- has_sibling(X, Y).
 X = brother,
 Y = me ;
 X = brother,
 Y = sister ;
-X = wife,
-Y = brother_in_law ;
-X = wife,
+X = brother_in_law,
 Y = sister_in_law ;
 X = brother_in_law,
 Y = wife ;
-X = brother_in_law,
-Y = sister_in_law ;
-X = sister_in_law,
-Y = wife ;
+X = me,
+Y = brother ;
+X = me,
+Y = sister ;
+X = sister,
+Y = brother ;
+X = sister,
+Y = me ;
 X = sister_in_law,
 Y = brother_in_law ;
+X = sister_in_law,
+Y = wife ;
+X = wife,
+Y = brother_in_law ;
+X = wife,
+Y = sister_in_law.
+
+31 ?- has_sister(X, Y).
+X = brother,
+Y = sister ;
+X = brother_in_law,
+Y = sister_in_law ;
+X = brother_in_law,
+Y = wife ;
 X = me,
 Y = sister ;
+X = sister_in_law,
+Y = wife ;
+X = wife,
+Y = sister_in_law.
+
+32 ?- has_brother(X, Y).
+X = brother,
+Y = me ;
 X = me,
 Y = brother ;
 X = sister,
-Y = me ;
-X = sister,
 Y = brother ;
-X = brother,
+X = sister,
 Y = me ;
-X = brother,
-Y = sister ;
+X = sister_in_law,
+Y = brother_in_law ;
+X = wife,
+Y = brother_in_law ;
 false.
 
-19 ?- has_sister(X, Y).
-X = me,
-Y = sister ;
-X = brother,
-Y = sister ;
-X = wife,
-Y = sister_in_law ;
-X = brother_in_law,
-Y = wife ;
-X = brother_in_law,
-Y = sister_in_law ;
-X = sister_in_law,
-Y = wife ;
-X = me,
-Y = sister ;
-X = brother,
-Y = sister ;
-false.
-
-20 ?- has_brother(X, Y).
-X = me,
-Y = brother ;
-X = sister,
-Y = me ;
-X = sister,
-Y = brother ;
-X = brother,
-Y = me ;
-X = wife,
-Y = brother_in_law ;
-X = sister_in_law,
-Y = brother_in_law ;
-X = me,
-Y = brother ;
-X = sister,
-Y = me ;
-X = sister,
-Y = brother ;
-X = brother,
-Y = me ;
-false.
-
-21 ?- has_husband(X, Y).
+33 ?- has_husband(X, Y).
 X = wife,
 Y = me ;
 X = daughter_in_law,
 Y = father.
 
-22 ?- has_wife(X, Y). 
+34 ?- has_wife(X, Y). 
 
 X = me,
 Y = wife .
 
+35 ?- has_wife(X, Y).
+X = me,
+Y = wife ;
+X = father,
+Y = daughter_in_law ;
+false.
+
+36 ?- noprotocol.
+true.
+
+37 ?- 
