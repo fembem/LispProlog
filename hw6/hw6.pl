@@ -31,8 +31,9 @@ assign_first_task([Task_name, Task_class, Task_time], 						%the first task
 
 %assign the first task to someone other than the first person in the people list
 assign_first_task(Task, [Unsuitable_Person|Other_people], Assignments, New_people, New_assignments) :-
-    New_people is [Unsuitable_Person | Other_people],
-    assign_first_task(Task, Other_people, Assignments, [Unsuitable_Person | Other_people], New_assignments).
+    assign_first_task(Task, Other_people, Assignments, New_people_2, New_assignments_2),
+    New_people is [Unsuitable_Person | New_people_2],
+    New_assignments is New_assignments_2.
     			
 
 %when there are no tasks left to assign, there are no futher assignments that need to be made
@@ -52,6 +53,5 @@ test2(Result) :-
   constrain([[frame, woodworking, 200], [pour, concrete, 25], [wall, woodworking, 100]],
             [[mary, 300,[woodworking, concrete]], [john, 50, [concrete]]],
 	    Result).
-
 
 
