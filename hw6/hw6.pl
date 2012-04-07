@@ -26,14 +26,18 @@ assign_first_task([Task_name, Task_class, Task_time], 						%the first task
     			Task_time < Time_left, 
     			New_time_left is Time_left - Task_time,
     			%same partial people list as before but first person on the list has less time left
-    			New_people is [ [Person_name, New_time_left, Person_skills] | Other_people ],
-    			New_assignments is [ [Task_name, Person_name] | Assignments ].
+    			New_person = [Person_name, New_time_left, Person_skills],
+    			New_people = [ New_person | Other_people ],
+    			New_assignments = [ [Task_name, Person_name] | Assignments ],
+    			write('assigned '), write(Task_name), write(' to '), write(Person_name), nl,
+    			write('New_people '), write(New_people), nl,
+    			write('New_assignments '), write(New_assignments), nl.
 
 %assign the first task to someone other than the first person in the people list
 assign_first_task(Task, [Unsuitable_Person|Other_people], Assignments, New_people, New_assignments) :-
     assign_first_task(Task, Other_people, Assignments, New_people_2, New_assignments_2),
-    New_people is [Unsuitable_Person | New_people_2],
-    New_assignments is New_assignments_2.
+    New_people = [Unsuitable_Person | New_people_2],
+    New_assignments = New_assignments_2.
     			
 
 %when there are no tasks left to assign, there are no futher assignments that need to be made
