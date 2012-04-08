@@ -15,6 +15,12 @@
 % Example use:
 %
 
+printAssignments(Assignments) :- write('['), printAssignmentsRec(Assignments).
+printAssignmentsRec([Assignment | []]) :- write(Assignment), write(']').
+printAssignmentsRec([Assignment | OtherAssignments]) :- write(Assignment), write(','), 
+														printAssignmentsRec(OtherAssignments).
+
+
 %assign the first task to the first person in the people list
 assign_first_task([Task_name, Task_class, Task_time], 						%the first task
 			[ [Person_name, Time_left, Person_skills] | Other_people ], 	%the people
@@ -30,8 +36,9 @@ assign_first_task([Task_name, Task_class, Task_time], 						%the first task
     			New_people = [ New_person | Other_people ],
     			New_assignments = [ [Task_name, Person_name] | Assignments ],
     			write('assigned '), write(Task_name), write(' to '), write(Person_name), nl,
-    			write('New_people '), write(New_people), nl,
-    			write('New_assignments '), write(New_assignments), nl.
+    			write('New_people '), write(New_people), nl.
+    			%write('Assignments '), printAssignments(Assignments), nl,
+    			%write('New_assignments '), printAssignments(New_assignments), nl.
 
 %assign the first task to someone other than the first person in the people list
 assign_first_task(Task, [Unsuitable_Person|Other_people], Assignments, New_people, New_assignments) :-
@@ -41,14 +48,14 @@ assign_first_task(Task, [Unsuitable_Person|Other_people], Assignments, New_peopl
     			
 
 %when there are no tasks left to assign, there are no futher assignments that need to be made
-constrain([], _, _).
+constrain([], _, _) :- write('success!!').
 %we can find a satisfying assignment if we can assign the first task, and then find
 %a satisfying assignment for the other tasks to the people, of which the one assigned to the first task
 %has his/her time available decreased by the time the first task took
 constrain([ Task | Other_tasks], People, Assignments ) :-
     			assign_first_task(Task, People, Assignments, New_people, New_assignments),
     			constrain(Other_tasks, New_people, New_assignments ).
-    			
+			
 test1(Result) :-
   constrain([[t1,a,5],[t2,b,10],[t3,c,15],[t4,c,10],[t5,a,15],[t6,b,10]],
             [[p1,20,[a,c]],[p2,10,[a,b]],[p3,15,[b]],[p4,30,[c]]],
