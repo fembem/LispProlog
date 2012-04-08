@@ -15,8 +15,8 @@
 % Example use:
 %
 
-printAssignments(Assignments) :- write('['), printAssignmentsRec(Assignments).
-printAssignmentsRec([Assignment | []]) :- write(Assignment), write(']').
+printAssignments(Assignments) :- write('{'), printAssignmentsRec(Assignments).
+printAssignmentsRec([Assignment | []]) :- write(Assignment), write('}').
 printAssignmentsRec([Assignment | OtherAssignments]) :- write(Assignment), write(','), 
 														printAssignmentsRec(OtherAssignments).
 
@@ -29,14 +29,14 @@ assign_first_task([Task_name, Task_class, Task_time], 						%the first task
 			New_assignments) :-												%the 'new' people list
 																			%the first person has less time left
     			member(Task_class, Person_skills), 
-    			Task_time < Time_left, 
+    			Task_time =< Time_left,
     			New_time_left is Time_left - Task_time,
     			%same partial people list as before but first person on the list has less time left
     			New_person = [Person_name, New_time_left, Person_skills],
     			New_people = [ New_person | Other_people ],
-    			New_assignments = [ [Task_name, Person_name] | Assignments ],
-    			write('assigned '), write(Task_name), write(' to '), write(Person_name), nl,
-    			write('New_people '), write(New_people), nl.
+    			New_assignments = [ [Task_name, Person_name] | Assignments ].
+    			%write('assigned '), write(Task_name), write(' to '), write(Person_name), nl,
+    			%write('New_people '), write(New_people), nl.
     			%write('Assignments '), printAssignments(Assignments), nl,
     			%write('New_assignments '), printAssignments(New_assignments), nl.
 
@@ -48,7 +48,8 @@ assign_first_task(Task, [Unsuitable_Person|Other_people], Assignments, New_peopl
     			
 
 %when there are no tasks left to assign, there are no futher assignments that need to be made
-constrain([], _, _) :- write('success!!').
+constrain([], _, Assignments) :- write('success!! '),
+						write('Final assignments: '), printAssignments(Assignments), nl.
 %we can find a satisfying assignment if we can assign the first task, and then find
 %a satisfying assignment for the other tasks to the people, of which the one assigned to the first task
 %has his/her time available decreased by the time the first task took
