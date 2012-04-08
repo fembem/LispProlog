@@ -1,3 +1,7 @@
+%Leo deCandia
+%ICS 361
+%Assignment 6
+
 % constrain(Tasks,       % list of tasks to assign
 %			 %   Each task is of the form:
 %			 %   [Task_name, Task_class, Task_time]
@@ -15,6 +19,7 @@
 % Example use:
 %
 
+%utility functions for printing nested arrays 2 level deep
 printAssignments(Assignments) :- write('{'), printAssignmentsRec(Assignments).
 printAssignmentsRec([Assignment | []]) :- write(Assignment), write('}').
 printAssignmentsRec([Assignment | OtherAssignments]) :- write(Assignment), write(','), 
@@ -28,10 +33,10 @@ assign_first_task([Task_name, Task_class, Task_time], 						%the first task
 			New_people,											    		%the new assignments
 			New_assignments) :-												%the 'new' people list
 																			%the first person has less time left
-    			write('consider assigning '), write(Task_name), write(' to '), write(Person_name), nl,
+    			%write('consider assigning '), write(Task_name), write(' to '), write(Person_name), nl,
     			member(Task_class, Person_skills), 
     			Task_time =< Time_left,
-    			write('assigned '), write(Task_name), write(' to '), write(Person_name), nl,
+    			%write('assigned '), write(Task_name), write(' to '), write(Person_name), nl,
     			New_time_left is Time_left - Task_time,
     			%same partial people list as before but first person on the list has less time left
     			New_person = [Person_name, New_time_left, Person_skills],
