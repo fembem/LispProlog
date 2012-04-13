@@ -1,18 +1,21 @@
-25 ?-  
+67 ?-  
 pdt_reload('c:/users/leo/ics361/lispprolog/hw6/hw6.pl').
-% c:/users/leo/ics361/lispprolog/hw6/hw6 compiled 0.00 sec, 13 clauses
+% c:/users/leo/ics361/lispprolog/hw6/hw6 compiled 0.02 sec, 14 clauses
 true.
 
-26 ?- test1(Result).
+68 ?- test1(Result).
 success!! 
 Final people: [[p1,0,[a,c]],[p2,0,[a,b]],[p3,5,[b]],[p4,5,[c]]]
-Final assignments: {[t6,p3],[t5,p1],[t4,p4],[t3,p4],[t2,p2],[t1,p1]}
-Result = [] .
+Result = [[t1, p1], [t2, p2], [t3, p4], [t4, p4], [t5, p1], [t6, p3]] ;
+success!! 
+Final people: [[p1,0,[a,c]],[p2,0,[a,b]],[p3,5,[b]],[p4,5,[c]]]
+Result = [[t1, p1], [t2, p3], [t3, p4], [t4, p4], [t5, p1], [t6, p2]] ;
+false.
 
-27 ?- test2(Result).
+69 ?- test2(Result).
 success!! 
 Final people: [[mary,0,[woodworking,concrete]],[john,25,[concrete]]]
-Final assignments: {[wall,mary],[pour,john],[frame,mary]}
-Result = [] .
+Result = [[frame, mary], [pour, john], [wall, mary]] ;
+false.
 
-28 ?- 
+70 ?- 
