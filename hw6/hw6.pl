@@ -72,13 +72,17 @@ test_assign_first_task_2(New_People, Assignment) :-
 			Assignment
 			).
 
-test1(Result) :-
+test1_(Result) :-
   constrain([[t1,a,5],[t2,b,10],[t3,c,15],[t4,c,10],[t5,a,15],[t6,b,10]],
             [[p1,20,[a,c]],[p2,10,[a,b]],[p3,15,[b]],[p4,30,[c]]],
 	    Result).
-test2(Result) :-
+test2_(Result) :-
   constrain([[frame, woodworking, 200], [pour, concrete, 25], [wall, woodworking, 100]],
             [[mary, 300,[woodworking, concrete]], [john, 50, [concrete]]],
 	    Result).
 
-
+test3_(Result) :-
+  constrain([[frame, woodworking, 200], [pour, concrete, 25], [wall, woodworking, 100]],
+            [[mary, 300,[woodworking, concrete]], [john, 50, [concrete]], 
+            [tim, 30, [concrete]], [larry, 400, [woodworking, concrete]]],
+	    Result).
