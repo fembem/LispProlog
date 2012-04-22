@@ -52,16 +52,19 @@ me_plan(Start, Goal, Been_list, Plan, End_state) :-
     not(subset(Preconditions, Start)),
     write('2--preconditions '), print_stack(Preconditions), 
     write(' not a subset of start '), print_stack(Start), nl,
-    me_plan(Start, Preconditions, Been_list, Sub_plan, End_state),!,	%just find first plan
+    me_plan(Start, Preconditions, Been_list, Sub_plan, Sub_end_state),!,	%just find first plan
     %write('2--Diff_set = '), print_stack(Diff_set), nl,
     write('2--Sub_plan = '), print_stack(Sub_plan), nl,
-    change_state(End_state, Actions, Child_state),
+    write('2--Sub_end_state = '), print_stack(Sub_end_state), nl,
+    change_state(Sub_end_state, Actions, Child_state),
     write('2--Child_state = '), print_stack(Child_state), nl,
     stack(Child_state, Been_list, New_been_list),
     append(Sub_plan, [Name], Pre_moves),
+    write('2--Pre_moves = '), print_stack(Pre_moves), nl,
     me_plan(Child_state, Goal, New_been_list, Post_moves, End_state),!,	%just find first plan
+    write('2--Post_moves = '), print_stack(Post_moves), nl,
     append(Pre_moves, Post_moves, Plan),
-    write('2--append ['), print_stack(Pre_moves), 
+    write('2--append '), print_stack(Pre_moves), 
     write(' and '), print_stack(Post_moves), nl.
 
 print_stack(S) :- write('['), print_stack_rec(S).
