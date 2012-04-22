@@ -1,24 +1,19 @@
+%Leo deCandia
+%ICS 361
+%Assignment 7
 
-%the text's solution
-%plan(State, Goal, _, Moves) :- 	equal_set(State, Goal), 
-%				write('moves are'), nl,
-%				reverse_print_stack(Moves).
-%plan(State, Goal, Been_list, Moves) :- 	
-%				move(Name, Preconditions, Actions),
-%				conditions_met(Preconditions, State),
-%				change_state(State, Actions, Child_state),
-%				not(member_state(Child_state, Been_list)),
-%				stack(Child_state, Been_list, New_been_list),
-%				stack(Name, Moves, New_moves),
-%			plan(Child_state, Goal, New_been_list, New_moves),!.
-
+%import useful predicates like set_diff and change_state
 :- [planner].
 
+%this is the base case, the goal predicates are satisfied at the current state 
+%so return an empty list as the plan, ie a null plan
 me_plan(Start, Goal, _, [], Start) :- 	%when we reach the goal the final end state will be our present 'start'
 	subset(Goal, Start), !, %only look for the first solution
 	write('Goal '), print_stack(Goal), 
     write('a subset of Start '), print_stack(Start), nl.
 
+%this is the case where we pick a move to achieve a predicate in the goal
+%but not satisfied in the current state, and we have the preconditions to take that move
 me_plan(Start, Goal, Been_list, [Name|Plan], End_state) :-
     write('plan from '), print_stack(Start), 
     write(' to '), print_stack(Goal), nl,
@@ -39,6 +34,11 @@ me_plan(Start, Goal, Been_list, [Name|Plan], End_state) :-
     stack(Child_state, Been_list, New_been_list),
     me_plan(Child_state, Goal, New_been_list, Plan, End_state),!.	%just find first plan
 
+%this is the case where we pick a move to achieve a predicate in the goal
+%but not satisfied in the current state, and we lack at least one precondition to take that move
+%in this case plan from the current state to the preconditions of that move
+%then plan from the resulting state to the current goal, 
+%then append the first plan with the second plan, with the original move in between.
 me_plan(Start, Goal, Been_list, Plan, End_state) :-
     %write('2--plan from ['), print_stack(Start), 
     %write('] to ['), print_stack(Goal), write(']'), nl,
@@ -67,14 +67,14 @@ me_plan(Start, Goal, Been_list, Plan, End_state) :-
     write('2--append '), print_stack(Pre_moves), 
     write(' and '), print_stack(Post_moves), nl.
 
-print_stack(S) :- write('['), print_stack_rec(S).
-print_stack_rec(S) :- 	empty_stack(S), write(']').
-print_stack_rec(S) :- 	stack(E, [R|Rest], S), !,
+%print a list as [1, 2, 3, 4], i.e comma delimited and surrounded by brackets
+print_stack(S) :- write('['), print_stack_rec(S), write(']').
+print_stack_rec(S) :- 	empty_stack(S).
+print_stack_rec(S) :- 	stack(E, [R|Rest], S), !,	%print a non-final element
 		 		write(E), write(', '),
 		 		print_stack_rec([R|Rest]).
-print_stack_rec(S) :- 	stack(E, Rest, S), 
-		 		write(E),
-		 		print_stack_rec(Rest).
+print_stack_rec(S) :- 	stack(E, [], S), 	%print a final element
+		 		write(E).
 
 
 % plan(Start,     % the start state
@@ -115,5 +115,18 @@ test3(P) :-
 	go([handempty, ontable(a), ontable(b), on(c, a), clear(b), clear(c)],
 	   [on(a, b), on(b, c)], P).
 
+:- set_prolog_flag(toplevel_print_options,[max_depth(0)]).
 
-	   
+:- noprotocol.
+:- protocol('C:\\Users\\Leo\\ICS361\\LispProlog\\hw7\\leo_hw7_log.txt').
+:- write('----------------- test0 ----------------------'), nl .
+:- test0(P), write('-------->plan is : '), print_stack(P), nl, nl .
+:- write('----------------- test1 ----------------------'), nl.
+:- test1(P), write('-------->plan is : '), print_stack(P), nl, nl .
+:- write('----------------- test2 ----------------------'), nl.
+:- test2(P), write('-------->plan is : '), print_stack(P), nl, nl .
+:- write('----------------- test3 ----------------------'), nl.
+:- test3(P), write('-------->plan is : '), print_stack(P), nl .
+:- noprotocol.
+
+

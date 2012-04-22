@@ -1,0 +1,180 @@
+----------------- test0 ----------------------
+plan from [holding(a), ontable(c), on(b,c), clear(b)] to [on(a,b), on(b,c)]
+Diff_set = [on(a,b)]
+add(on(a,b)) in actions
+Satisfying move = stack(a,b)
+Child_state = [handempty, on(a,b), clear(a), ontable(c), on(b,c)]
+Child_state not in been list
+Goal [on(a,b), on(b,c)]a subset of Start [handempty, on(a,b), clear(a), ontable(c), on(b,c)]
+-------->plan is : [stack(a,b)]
+
+----------------- test1 ----------------------
+plan from [handempty, ontable(a), ontable(c), on(b,c), clear(a), clear(b)] to [on(a,b), on(b,c)]
+Diff_set = [on(a,b)]
+add(on(a,b)) in actions
+2--preconditions [holding(a), clear(b)] not a subset of start [handempty, ontable(a), ontable(c), on(b,c), clear(a), clear(b)]
+plan from [handempty, ontable(a), ontable(c), on(b,c), clear(a), clear(b)] to [holding(a), clear(b)]
+Diff_set = [holding(a)]
+add(holding(a)) in actions
+Satisfying move = pickup2(a)
+Child_state = [holding(a), ontable(c), on(b,c), clear(b)]
+Child_state not in been list
+Goal [holding(a), clear(b)]a subset of Start [holding(a), ontable(c), on(b,c), clear(b)]
+2--Sub_plan = [pickup2(a)]
+2--Sub_end_state = [holding(a), ontable(c), on(b,c), clear(b)]
+2--Child_state = [handempty, on(a,b), clear(a), ontable(c), on(b,c)]
+2--Pre_moves = [pickup2(a), stack(a,b)]
+Goal [on(a,b), on(b,c)]a subset of Start [handempty, on(a,b), clear(a), ontable(c), on(b,c)]
+2--Post_moves = []
+2--append [pickup2(a), stack(a,b)] and []
+-------->plan is : [pickup2(a), stack(a,b)]
+
+----------------- test2 ----------------------
+plan from [handempty, ontable(b), ontable(c), on(a,b), clear(c), clear(a)] to [handempty, ontable(c), on(a,b), on(b,c), clear(a)]
+Diff_set = [on(b,c)]
+add(on(b,c)) in actions
+2--preconditions [holding(b), clear(c)] not a subset of start [handempty, ontable(b), ontable(c), on(a,b), clear(c), clear(a)]
+plan from [handempty, ontable(b), ontable(c), on(a,b), clear(c), clear(a)] to [holding(b), clear(c)]
+Diff_set = [holding(b)]
+add(holding(b)) in actions
+add(holding(b)) in actions
+2--preconditions [handempty, ontable(b), clear(b)] not a subset of start [handempty, ontable(b), ontable(c), on(a,b), clear(c), clear(a)]
+plan from [handempty, ontable(b), ontable(c), on(a,b), clear(c), clear(a)] to [handempty, ontable(b), clear(b)]
+Diff_set = [clear(b)]
+add(clear(b)) in actions
+Satisfying move = pickup(a)
+Child_state = [clear(b), holding(a), ontable(b), ontable(c), clear(c)]
+Child_state not in been list
+plan from [clear(b), holding(a), ontable(b), ontable(c), clear(c)] to [handempty, ontable(b), clear(b)]
+Diff_set = [handempty]
+add(handempty) in actions
+Satisfying move = putdown(a)
+Child_state = [on(a,table), clear(a), handempty, clear(b), ontable(b), ontable(c), clear(c)]
+Child_state not in been list
+Goal [handempty, ontable(b), clear(b)]a subset of Start [on(a,table), clear(a), handempty, clear(b), ontable(b), ontable(c), clear(c)]
+2--Sub_plan = [pickup(a), putdown(a)]
+2--Sub_end_state = [on(a,table), clear(a), handempty, clear(b), ontable(b), ontable(c), clear(c)]
+2--Child_state = [holding(b), on(a,table), clear(a), ontable(c), clear(c)]
+2--Pre_moves = [pickup(a), putdown(a), pickup2(b)]
+Goal [holding(b), clear(c)]a subset of Start [holding(b), on(a,table), clear(a), ontable(c), clear(c)]
+2--Post_moves = []
+2--append [pickup(a), putdown(a), pickup2(b)] and []
+2--Sub_plan = [pickup(a), putdown(a), pickup2(b)]
+2--Sub_end_state = [holding(b), on(a,table), clear(a), ontable(c), clear(c)]
+2--Child_state = [handempty, on(b,c), clear(b), on(a,table), clear(a), ontable(c)]
+2--Pre_moves = [pickup(a), putdown(a), pickup2(b), stack(b,c)]
+plan from [handempty, on(b,c), clear(b), on(a,table), clear(a), ontable(c)] to [handempty, ontable(c), on(a,b), on(b,c), clear(a)]
+Diff_set = [on(a,b)]
+add(on(a,b)) in actions
+2--preconditions [holding(a), clear(b)] not a subset of start [handempty, on(b,c), clear(b), on(a,table), clear(a), ontable(c)]
+plan from [handempty, on(b,c), clear(b), on(a,table), clear(a), ontable(c)] to [holding(a), clear(b)]
+Diff_set = [holding(a)]
+add(holding(a)) in actions
+add(holding(a)) in actions
+Satisfying move = pickup(a)
+Child_state = [clear(table), holding(a), on(b,c), clear(b), ontable(c)]
+Child_state not in been list
+Goal [holding(a), clear(b)]a subset of Start [clear(table), holding(a), on(b,c), clear(b), ontable(c)]
+2--Sub_plan = [pickup(a)]
+2--Sub_end_state = [clear(table), holding(a), on(b,c), clear(b), ontable(c)]
+2--Child_state = [handempty, on(a,b), clear(a), clear(table), on(b,c), ontable(c)]
+2--Pre_moves = [pickup(a), stack(a,b)]
+Goal [handempty, ontable(c), on(a,b), on(b,c), clear(a)]a subset of Start [handempty, on(a,b), clear(a), clear(table), on(b,c), ontable(c)]
+2--Post_moves = []
+2--append [pickup(a), stack(a,b)] and []
+2--Post_moves = [pickup(a), stack(a,b)]
+2--append [pickup(a), putdown(a), pickup2(b), stack(b,c)] and [pickup(a), stack(a,b)]
+-------->plan is : [pickup(a), putdown(a), pickup2(b), stack(b,c), pickup(a), stack(a,b)]
+
+----------------- test3 ----------------------
+plan from [handempty, ontable(a), ontable(b), on(c,a), clear(b), clear(c)] to [on(a,b), on(b,c)]
+Diff_set = [on(a,b), on(b,c)]
+add(on(a,b)) in actions
+add(on(b,c)) in actions
+2--preconditions [holding(a), clear(b)] not a subset of start [handempty, ontable(a), ontable(b), on(c,a), clear(b), clear(c)]
+plan from [handempty, ontable(a), ontable(b), on(c,a), clear(b), clear(c)] to [holding(a), clear(b)]
+Diff_set = [holding(a)]
+add(holding(a)) in actions
+add(holding(a)) in actions
+2--preconditions [handempty, ontable(a), clear(a)] not a subset of start [handempty, ontable(a), ontable(b), on(c,a), clear(b), clear(c)]
+plan from [handempty, ontable(a), ontable(b), on(c,a), clear(b), clear(c)] to [handempty, ontable(a), clear(a)]
+Diff_set = [clear(a)]
+add(clear(a)) in actions
+Satisfying move = pickup(c)
+Child_state = [clear(a), holding(c), ontable(a), ontable(b), clear(b)]
+Child_state not in been list
+plan from [clear(a), holding(c), ontable(a), ontable(b), clear(b)] to [handempty, ontable(a), clear(a)]
+Diff_set = [handempty]
+add(handempty) in actions
+Satisfying move = putdown(c)
+Child_state = [on(c,table), clear(c), handempty, clear(a), ontable(a), ontable(b), clear(b)]
+Child_state not in been list
+Goal [handempty, ontable(a), clear(a)]a subset of Start [on(c,table), clear(c), handempty, clear(a), ontable(a), ontable(b), clear(b)]
+2--Sub_plan = [pickup(c), putdown(c)]
+2--Sub_end_state = [on(c,table), clear(c), handempty, clear(a), ontable(a), ontable(b), clear(b)]
+2--Child_state = [holding(a), on(c,table), clear(c), ontable(b), clear(b)]
+2--Pre_moves = [pickup(c), putdown(c), pickup2(a)]
+Goal [holding(a), clear(b)]a subset of Start [holding(a), on(c,table), clear(c), ontable(b), clear(b)]
+2--Post_moves = []
+2--append [pickup(c), putdown(c), pickup2(a)] and []
+2--Sub_plan = [pickup(c), putdown(c), pickup2(a)]
+2--Sub_end_state = [holding(a), on(c,table), clear(c), ontable(b), clear(b)]
+2--Child_state = [handempty, on(a,b), clear(a), on(c,table), clear(c), ontable(b)]
+2--Pre_moves = [pickup(c), putdown(c), pickup2(a), stack(a,b)]
+plan from [handempty, on(a,b), clear(a), on(c,table), clear(c), ontable(b)] to [on(a,b), on(b,c)]
+Diff_set = [on(b,c)]
+add(on(b,c)) in actions
+2--preconditions [holding(b), clear(c)] not a subset of start [handempty, on(a,b), clear(a), on(c,table), clear(c), ontable(b)]
+plan from [handempty, on(a,b), clear(a), on(c,table), clear(c), ontable(b)] to [holding(b), clear(c)]
+Diff_set = [holding(b)]
+add(holding(b)) in actions
+add(holding(b)) in actions
+2--preconditions [handempty, ontable(b), clear(b)] not a subset of start [handempty, on(a,b), clear(a), on(c,table), clear(c), ontable(b)]
+plan from [handempty, on(a,b), clear(a), on(c,table), clear(c), ontable(b)] to [handempty, ontable(b), clear(b)]
+Diff_set = [clear(b)]
+add(clear(b)) in actions
+Satisfying move = pickup(a)
+Child_state = [clear(b), holding(a), on(c,table), clear(c), ontable(b)]
+Child_state not in been list
+plan from [clear(b), holding(a), on(c,table), clear(c), ontable(b)] to [handempty, ontable(b), clear(b)]
+Diff_set = [handempty]
+add(handempty) in actions
+Satisfying move = putdown(a)
+Child_state = [on(a,table), clear(a), handempty, clear(b), on(c,table), clear(c), ontable(b)]
+Child_state not in been list
+Goal [handempty, ontable(b), clear(b)]a subset of Start [on(a,table), clear(a), handempty, clear(b), on(c,table), clear(c), ontable(b)]
+2--Sub_plan = [pickup(a), putdown(a)]
+2--Sub_end_state = [on(a,table), clear(a), handempty, clear(b), on(c,table), clear(c), ontable(b)]
+2--Child_state = [holding(b), on(a,table), clear(a), on(c,table), clear(c)]
+2--Pre_moves = [pickup(a), putdown(a), pickup2(b)]
+Goal [holding(b), clear(c)]a subset of Start [holding(b), on(a,table), clear(a), on(c,table), clear(c)]
+2--Post_moves = []
+2--append [pickup(a), putdown(a), pickup2(b)] and []
+2--Sub_plan = [pickup(a), putdown(a), pickup2(b)]
+2--Sub_end_state = [holding(b), on(a,table), clear(a), on(c,table), clear(c)]
+2--Child_state = [handempty, on(b,c), clear(b), on(a,table), clear(a), on(c,table)]
+2--Pre_moves = [pickup(a), putdown(a), pickup2(b), stack(b,c)]
+plan from [handempty, on(b,c), clear(b), on(a,table), clear(a), on(c,table)] to [on(a,b), on(b,c)]
+Diff_set = [on(a,b)]
+add(on(a,b)) in actions
+2--preconditions [holding(a), clear(b)] not a subset of start [handempty, on(b,c), clear(b), on(a,table), clear(a), on(c,table)]
+plan from [handempty, on(b,c), clear(b), on(a,table), clear(a), on(c,table)] to [holding(a), clear(b)]
+Diff_set = [holding(a)]
+add(holding(a)) in actions
+add(holding(a)) in actions
+Satisfying move = pickup(a)
+Child_state = [clear(table), holding(a), on(b,c), clear(b), on(c,table)]
+Child_state not in been list
+Goal [holding(a), clear(b)]a subset of Start [clear(table), holding(a), on(b,c), clear(b), on(c,table)]
+2--Sub_plan = [pickup(a)]
+2--Sub_end_state = [clear(table), holding(a), on(b,c), clear(b), on(c,table)]
+2--Child_state = [handempty, on(a,b), clear(a), clear(table), on(b,c), on(c,table)]
+2--Pre_moves = [pickup(a), stack(a,b)]
+Goal [on(a,b), on(b,c)]a subset of Start [handempty, on(a,b), clear(a), clear(table), on(b,c), on(c,table)]
+2--Post_moves = []
+2--append [pickup(a), stack(a,b)] and []
+2--Post_moves = [pickup(a), stack(a,b)]
+2--append [pickup(a), putdown(a), pickup2(b), stack(b,c)] and [pickup(a), stack(a,b)]
+2--Post_moves = [pickup(a), putdown(a), pickup2(b), stack(b,c), pickup(a), stack(a,b)]
+2--append [pickup(c), putdown(c), pickup2(a), stack(a,b)] and [pickup(a), putdown(a), pickup2(b), stack(b,c), pickup(a), stack(a,b)]
+-------->plan is : [pickup(c), putdown(c), pickup2(a), stack(a,b), pickup(a), putdown(a), pickup2(b), stack(b,c), pickup(a), stack(a,b)]
