@@ -38,13 +38,13 @@ verbphrase([Verb | Rest], End, Verb_phrase_graph) :-
     join(Verb_phrase_graph_partial, Noun_phrase_graph_obj,
          Verb_phrase_graph).
 
-%extra verbphrase rule for buying
+%extra verbphrase rule for buying from
 verbphrase([Verb | Rest], End, Verb_phrase_graph) :-
     %write('in new rule'), nl,
     verb(Verb, Verb_graph),
     %write('Verb_graph: '), write(Verb_graph), nl,
     nounphrase(Rest, [ Prep| End1 ], Noun_phrase_graph_obj),
-    prep(Prep),
+    prep_from(Prep),
     %write('object Noun_phrase_graph: '), write(Noun_phrase_graph_obj), nl,
     %write('End1: '), write(End1), nl,
     nounphrase(End1, End, Noun_phrase_graph_src),
@@ -119,7 +119,7 @@ verb(bought, [action([buying(X)]),
          agent([animate(X)]), object([Y]), source([animate(Z)])]).
 
 %extra preposition
-prep(from).
+prep_from(from).
 
 %%%nlp2.pro
 sentence(Start, End , Sentence_graph) :-
@@ -151,8 +151,27 @@ test2(Meaning) :- utterance([john, sold, mary, a, car], Meaning).
 test3(Meaning) :- utterance([john, sold, mary, a, computer], Meaning).
 test4(Meaning) :- utterance([mary, sold, john, a, computer], Meaning).
 test5(Meaning) :- utterance([mary, bought, a, car, from, john], Meaning).
-test5(Meaning) :- utterance([mary, bought, a, computer, from, john], Meaning).
-test6(Meaning) :- utterance([john , bought, a, car, from, mary], Meaning).
-test6(Meaning) :- utterance([john , bought, a, computer, from, mary], Meaning).
+test6(Meaning) :- utterance([mary, bought, a, computer, from, john], Meaning).
+test7(Meaning) :- utterance([john , bought, a, car, from, mary], Meaning).
+test8(Meaning) :- utterance([john , bought, a, computer, from, mary], Meaning).
 
+:- noprotocol.
+:- protocol('C:\\Users\\Leo\\ICS361\\LispProlog\\hw8\\leo_hw8_log.txt').
+:- write('test1: utterance([mary, sold, john, a, car], Meaning)'), nl .
+:- test1(Meaning), write('Meaning: '), write(Meaning), nl, nl .
+:- write('utterance([john, sold, mary, a, car], Meaning)'), nl .
+:- test2(Meaning), write('Meaning: '), write(Meaning), nl, nl .
+:- write('utterance([john, sold, mary, a, computer], Meaning)'), nl .
+:- test3(Meaning), write('Meaning: '), write(Meaning), nl, nl .
+:- write('utterance([mary, sold, john, a, computer], Meaning).'), nl .
+:- test4(Meaning), write('Meaning: '), write(Meaning), nl, nl .
+:- write('utterance([mary, bought, a, car, from, john], Meaning)'), nl .
+:- test5(Meaning), write('Meaning: '), write(Meaning), nl, nl .
+:- write('utterance([mary, bought, a, computer, from, john], Meaning)'), nl .
+:- test6(Meaning), write('Meaning: '), write(Meaning), nl, nl .
+:- write('utterance([john , bought, a, car, from, mary], Meaning)'), nl .
+:- test7(Meaning), write('Meaning: '), write(Meaning), nl, nl .
+:- write('utterance([john , bought, a, computer, from, mary], Meaning)'), nl .
+:- test8(Meaning), write('Meaning: '), write(Meaning), nl .
+:- noprotocol.
 

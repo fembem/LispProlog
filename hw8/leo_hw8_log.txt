@@ -1,0 +1,23 @@
+test1: utterance([mary, sold, john, a, car], Meaning)
+Meaning: [action([selling(mary)]),agent([man(mary)]),recipient([animate(_G2948)]),object([man(john)]),car(_G2966)]
+
+utterance([john, sold, mary, a, car], Meaning)
+Meaning: [action([selling(john)]),agent([man(john)]),recipient([animate(_G2948)]),object([man(mary)]),car(_G2966)]
+
+utterance([john, sold, mary, a, computer], Meaning)
+Meaning: [action([selling(john)]),agent([man(john)]),recipient([animate(_G2948)]),object([man(mary)]),computer(_G2966)]
+
+utterance([mary, sold, john, a, computer], Meaning).
+Meaning: [action([selling(mary)]),agent([man(mary)]),recipient([animate(_G2948)]),object([man(john)]),computer(_G2966)]
+
+utterance([mary, bought, a, car, from, john], Meaning)
+Meaning: [action([buying(mary)]),agent([man(mary)]),object([car(_G2967)]),source([animate(_G2959)]),man(john)]
+
+utterance([mary, bought, a, computer, from, john], Meaning)
+Meaning: [action([buying(mary)]),agent([man(mary)]),object([computer(_G2967)]),source([animate(_G2959)]),man(john)]
+
+utterance([john , bought, a, car, from, mary], Meaning)
+Meaning: [action([buying(john)]),agent([man(john)]),object([car(_G2967)]),source([animate(_G2959)]),man(mary)]
+
+utterance([john , bought, a, computer, from, mary], Meaning)
+Meaning: [action([buying(john)]),agent([man(john)]),object([computer(_G2961)]),source([animate(_G2953)]),man(mary)]
