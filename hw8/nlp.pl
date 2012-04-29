@@ -15,27 +15,46 @@ verbphrase([Verb | End], End, Verb_phrase_graph) :-
     verb(Verb, Verb_phrase_graph).
 verbphrase([Verb | Rest], End, Verb_phrase_graph) :-
     verb(Verb, Verb_graph),
-    write('Verb_graph: '), write(Verb_graph), nl,
+    %write('Verb_graph: '), write(Verb_graph), nl,
     nounphrase(Rest, End, Noun_phrase_graph),
-    write('Noun_phrase_graph: '), write(Noun_phrase_graph), nl,
+    %write('Noun_phrase_graph: '), write(Noun_phrase_graph), nl,
     join([object(Noun_phrase_graph)], Verb_graph,
-         Verb_phrase_graph),
-    write('Verb_phrase_graph: '), write(Verb_phrase_graph), nl, !. %only pare the sentence one way
-
-%extra verbphrase rule  
-verbphrase([Verb | Rest], End, Verb_phrase_graph) :-
-    write('in new rule'), nl,
-    verb(Verb, Verb_graph),
-    write('Verb_graph: '), write(Verb_graph), nl,
-    nounphrase(Rest, End1, Noun_phrase_graph_rec),
-    write('recipient Noun_phrase_graph: '), write(Noun_phrase_graph_rec), nl,
-    nounphrase(End1, End, Noun_phrase_graph_obj),
-    write('object Noun_phrase_graph: '), write(Noun_phrase_graph_obj), nl,
-    join([object(Noun_phrase_graph_rec)], Verb_graph,
-         Verb_phrase_graph),
-    join(Verb_phrase_graph1, Noun_phrase_graph_obj,
          Verb_phrase_graph).
-         
+    %write('Verb_phrase_graph: '), write(Verb_phrase_graph), nl,
+    %!. %only pare the sentence one way
+
+%extra verbphrase rule for selling
+verbphrase([Verb | Rest], End, Verb_phrase_graph) :-
+    %write('in new rule'), nl,
+    verb(Verb, Verb_graph),
+    %write('Verb_graph: '), write(Verb_graph), nl,
+    nounphrase(Rest, End1, Noun_phrase_graph_rec),
+    %write('recipient Noun_phrase_graph: '), write(Noun_phrase_graph_rec), nl,
+    %write('End1: '), write(End1), nl,
+    nounphrase(End1, End, Noun_phrase_graph_obj),
+    %write('object Noun_phrase_graph: '), write(Noun_phrase_graph_obj), nl,
+    join([object(Noun_phrase_graph_rec)], Verb_graph,
+         Verb_phrase_graph_partial),
+    join(Verb_phrase_graph_partial, Noun_phrase_graph_obj,
+         Verb_phrase_graph).
+
+%extra verbphrase rule for buying
+verbphrase([Verb | Rest], End, Verb_phrase_graph) :-
+    %write('in new rule'), nl,
+    verb(Verb, Verb_graph),
+    %write('Verb_graph: '), write(Verb_graph), nl,
+    nounphrase(Rest, [ Prep| End1 ], Noun_phrase_graph_obj),
+    prep(Prep),
+    %write('object Noun_phrase_graph: '), write(Noun_phrase_graph_obj), nl,
+    %write('End1: '), write(End1), nl,
+    nounphrase(End1, End, Noun_phrase_graph_src),
+    %write('source Noun_phrase_graph: '), write(Noun_phrase_graph_src), nl,
+    join([object(Noun_phrase_graph_obj)], Verb_graph,
+         Verb_phrase_graph_partial),
+    join(Verb_phrase_graph_partial, Noun_phrase_graph_src,
+         Verb_phrase_graph).
+
+
 join(X, X, X).
 join(A, B, C) :-
     isframe(A), isframe(B), !,
@@ -81,8 +100,8 @@ noun(fido, [dog(fido)]).
 noun(mary, [man(mary)]).
 noun(john, [man(john)]).
 %extra nouns for computer and car
-noun(computer).
-noun(car).
+noun(computer, [computer(X)]).
+noun(car, [car(X)]).
 
 noun(man, [man(X)]).
 noun(dog, [dog(X)]).
@@ -100,7 +119,7 @@ verb(bought, [action([buying(X)]),
          agent([animate(X)]), object([Y]), source([animate(Z)])]).
 
 %extra preposition
-prep(by).
+prep(from).
 
 %%%nlp2.pro
 sentence(Start, End , Sentence_graph) :-
@@ -135,4 +154,5 @@ test5(Meaning) :- utterance([mary, bought, a, car, from, john], Meaning).
 test5(Meaning) :- utterance([mary, bought, a, computer, from, john], Meaning).
 test6(Meaning) :- utterance([john , bought, a, car, from, mary], Meaning).
 test6(Meaning) :- utterance([john , bought, a, computer, from, mary], Meaning).
+
 
